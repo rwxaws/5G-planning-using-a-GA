@@ -7,22 +7,22 @@ import numpy as np
 
 
 # constants
-NUM_OF_USERS        = int(input("Enter the number of users:"))
-AREA                = int(input("Enter the search area:"))
-STEP                = int(input("Enter step size:"))
-USERS_THRESHOLD     = int(input("Enter users threshold:"))
-NUM_MACROCELLS      = int(input("Enter macrocells number:"))
-NUM_MICROCELLS      = int(input("Enter microcells number:"))
+NUM_OF_USERS = int(input("Enter the number of users:"))
+AREA = int(input("Enter the search area:"))
+STEP = int(input("Enter step size:"))
+USERS_THRESHOLD = int(input("Enter users threshold:"))
+NUM_MACROCELLS = int(input("Enter macrocells number:"))
+NUM_MICROCELLS = int(input("Enter microcells number:"))
 DISTANCE_MACROCELLS = int(input("Enter the distance between macrocells:"))
 DISTANCE_MICROCELLS = int(input("Enter the distance between microcells:"))
-FREQ_MACRO          = 3.5
-FREQ_SMALL_CELLS    = 28
+FREQ_MACRO = 3.5
+FREQ_SMALL_CELLS = 28
 
 # lists
-users            = []
+users = []
 candidate_points = []
-macro_cells      = []
-micro_cells      = []
+macro_cells = []
+micro_cells = []
 
 # generate users
 for i in range(NUM_OF_USERS):
@@ -37,7 +37,7 @@ for i in range(0, AREA, STEP):
         users_num = 0
         for user in users:
             if within(i, j, STEP, user.get_xcoord(), user.get_ycoord()):
-               users_num += 1
+                users_num += 1
 
         if users_num >= USERS_THRESHOLD:
             candidate_point_x = round(np.random.uniform(i, i + STEP))
@@ -46,8 +46,10 @@ for i in range(0, AREA, STEP):
 
 
 # generate cells
-generate_cells(candidate_points, "macro", DISTANCE_MACROCELLS, NUM_MACROCELLS, macro_cells)
-generate_cells(candidate_points, "micro", DISTANCE_MICROCELLS, NUM_MICROCELLS, micro_cells)
+generate_cells(candidate_points, "macro", DISTANCE_MACROCELLS,
+               NUM_MACROCELLS, macro_cells)
+generate_cells(candidate_points, "micro", DISTANCE_MICROCELLS,
+               NUM_MICROCELLS, micro_cells)
 
 print("# of remaining candidate points:{}".format(len(candidate_points)))
 same_place(candidate_points, macro_cells)

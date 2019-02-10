@@ -2,20 +2,26 @@ import numpy as np
 from copy import copy
 from ..objs.cell import Cell
 
+
 def distance(x1, y1, x2, y2):
     return round(np.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2), 3)
 
+
 def rain(distance):
-    return round(9 * (distance / 1000), 3) # convert from m to km
+    return round(9 * (distance / 1000), 3)  # convert from m to km
+
 
 def fooliage(distance, frequency):
     return round(0.2 * ((frequency * 1000) ** 0.3) * ((5 / 1000) ** 0.6), 3)
 
+
 def path_loss(distance, frequency, rain, fooliage):
     return round(92.4 + 20 * np.log10(distance / 1000) + 20 * np.log10(frequency) + 0.06 * (distance / 1000) + round(np.random.uniform(0, 1), 3) + rain + fooliage, 3)
 
+
 def received_power(power_bs, num_bs, distance, frequency, rain, fooliage):
     return round((10 * np.log10(power_bs / num_bs) - path_loss(distance, frequency, rain, fooliage)) + 30, 3)
+
 
 def generate_cells(candidate_points_list, type_of_cell, distance_between_cells, num_of_cells, cell_list):
     np.random.shuffle(candidate_points_list)
@@ -42,19 +48,22 @@ def generate_cells(candidate_points_list, type_of_cell, distance_between_cells, 
         if len(cell_list) >= num_of_cells:
             break
 
+
 def within(x, y, size, px, py):
     if(px >= x and px <= x + size):
         if (py >= y and py <= y + size):
             return True
     return False
 
+
 def distance_between_cell(cell_list):
-    #TODO: Implement(remove get_coords)
+    # TODO: Implement(remove get_coords)
     pass
     # for cell in cell_list:
     #     for other in cell_list:
     #         pass
     #         print("Distance = {} cell {} and cell {}, coords = ({}) ({})".format(distance(cell.get_coords()[0], other.get_coords()[0], cell.get_coords()[1], other.get_coords()[1]), cell_list.index(cell), cell_list.index(other), cell.get_coords(), other.get_coords()))
+
 
 def same_place(cpl, cl):
     for cp in cpl:

@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class Cell:
 
     def __init__(self, xcoord, ycoord, cell_type):
@@ -9,7 +10,7 @@ class Cell:
         self.__cell_type = cell_type
         self.__connected_users = []
         self.__state = True
-        self.__cost  = self.calculate_cost()
+        self.__cost = self.calculate_cost()
 
     def get_xcoord(self):
         return self.__xcoord
@@ -51,5 +52,5 @@ class Cell:
             return 5
 
     def pprint(self):
-        #TODO: reimplement to use the new functions
+        # TODO: reimplement to use the new functions
         pass
