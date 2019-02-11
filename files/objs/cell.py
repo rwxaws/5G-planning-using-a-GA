@@ -54,5 +54,7 @@ class Cell:
             return 5
 
     def pprint(self):
-        # TODO: reimplement to use the new functions
-        pass
+        return """
+        x = {}
+        y = {}
+        """.format(self.get_xcoord(), self.get_ycoord())
