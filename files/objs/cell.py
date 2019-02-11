@@ -12,6 +12,7 @@ class Cell:
         self.__state = True
         self.__cost = self.calculate_cost()
 
+    # getters
     def get_xcoord(self):
         return self.__xcoord
 
@@ -30,6 +31,7 @@ class Cell:
     def get_cost(self):
         return self.__cost
 
+    # setters
     def set_coords(self, x, y):
         self.__xcoord = x
         self.__ycoord = y

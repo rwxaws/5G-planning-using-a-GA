@@ -57,23 +57,23 @@ same_place(candidate_points, micro_cells)
 distance_between_cell(macro_cells)
 distance_between_cell(micro_cells)
 
-users_x = [user.get_xcoord() for user in users]
-users_y = [user.get_ycoord() for user in users]
+users_x_positions = [user.get_xcoord() for user in users]
+users_y_positions = [user.get_ycoord() for user in users]
 
 candidate_point_x, candidate_point_y = zip(*candidate_points)
 
-macrocells_x = [macrocell.get_xcoord() for macrocell in macro_cells]
-macrocells_y = [macrocell.get_ycoord() for macrocell in macro_cells]
-microcells_x = [microcell.get_xcoord() for microcell in micro_cells]
-microcells_y = [microcell.get_ycoord() for microcell in micro_cells]
+macrocells_x_positions = [macrocell.get_xcoord() for macrocell in macro_cells]
+macrocells_y_positions = [macrocell.get_ycoord() for macrocell in macro_cells]
+microcells_x_positions = [microcell.get_xcoord() for microcell in micro_cells]
+microcells_y_positions = [microcell.get_ycoord() for microcell in micro_cells]
 
 plt.grid(which="major", axis="both", linewidth=2)
 plt.xticks(np.arange(0, AREA + STEP, STEP))
 plt.yticks(np.arange(0, AREA + STEP, STEP))
 
-plt.plot(users_x, users_y, "k.", label="users")
+plt.plot(users_x_positions, users_y_positions, "k.", label="users")
 plt.plot(candidate_point_x, candidate_point_y, "ro", label="candidate points")
-plt.plot(macrocells_x, macrocells_y, "bX", label="macro cells")
-plt.plot(microcells_x, microcells_y, "g^", label="micro cells")
+plt.plot(macrocells_x_positions, macrocells_y_positions, "bX", label="macro cells")
+plt.plot(microcells_x_positions, microcells_y_positions, "g^", label="micro cells")
 plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05), ncol=4)
 plt.show()

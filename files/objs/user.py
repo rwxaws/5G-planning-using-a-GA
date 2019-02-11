@@ -5,6 +5,7 @@ class User:
         self.__coord_y = coord_y
         self.__received_power_vector = None
 
+    # getters
     def get_xcoord(self):
         return self.__coord_x
 
