@@ -55,6 +55,21 @@ def generate_cells(candidate_points_list, type_of_cell, distance_between_cells, 
             break
 
 
+def print_pop(population_pool, num_macro, num_micro):
+    """ print the population in a human readable format """
+    print("##########")
+    print("MACRO CELLS")
+    for macro_cell in population_pool[0:num_macro]:
+        print(macro_cell.pprint())
+    print("##########\n")
+
+    print("##########")
+    print("MICRO CELLS")
+    for micro_cell in population_pool[num_macro: num_macro + num_micro]:
+        print(micro_cell.pprint())
+    print("##########\n")
+
+
 def within(x, y, size, px, py):
     """ returns true if a point (px, py) is within a range (x, y, x+size, y+size) """
     if(px >= x and px <= x + size):
