@@ -57,4 +57,5 @@ class Cell:
         return """
         x = {}
         y = {}
-        """.format(self.get_xcoord(), self.get_ycoord())
+        type = {}
+        """.format(self.get_xcoord(), self.get_ycoord(), self.get_cell_type())
