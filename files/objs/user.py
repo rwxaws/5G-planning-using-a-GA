@@ -8,13 +8,17 @@ class User:
 
     # getters
     def get_xcoord(self):
+        """ returns the user x coordinate """
         return self.__coord_x
 
     def get_ycoord(self):
+        """ returns the user y coordinate """
         return self.__coord_y
 
     def get_close_bss(self):
+        """ returns the list of close by basestations """
         return self.__close_bss
 
     def get_connected_bs(self):
+        """ returns the basestation that the user is currently connected to """
         return self.__connected_bs
