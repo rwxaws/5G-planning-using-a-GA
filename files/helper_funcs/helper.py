@@ -38,7 +38,7 @@ def generate_cells(candidate_points_list, type_of_cell, distance_between_cells, 
     cell = Cell(cell_coords[0], cell_coords[1], type_of_cell)
     cell_list.append(cell)
 
-    # look for the rest
+    # look for the remainding candidate points
     for cp in temp_candidate_points_list:
         is_well_positioned = True
         for c in cell_list:
