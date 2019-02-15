@@ -4,32 +4,55 @@ from ..objs.cell import Cell
 
 
 def distance(x1, y1, x2, y2):
-    """ return euclidean distance """
+    """Returns euclidean distance between 2 points."""
     return round(np.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2), 3)
 
 
-def rain(distance):
-    """ returns rain attenuation in km """
+def rain_attenuation(distance):
+    """Returns rain attenuation in km."""
     return round(9 * (distance / 1000), 3)
 
 
 def fooliage(distance, frequency):
-    """ returns fooliage distrubtance """
+    """Returns fooliage ghosting."""
     return round(0.2 * ((frequency * 1000) ** 0.3) * ((5 / 1000) ** 0.6), 3)
 
 
 def path_loss(distance, frequency, rain, fooliage):
-    """ returns path loss using equation found at paper """
+    """Returns path loss using equation found at paper."""
     return round(92.4 + 20 * np.log10(distance / 1000) + 20 * np.log10(frequency) + 0.06 * (distance / 1000) + round(np.random.uniform(0, 1), 3) + rain + fooliage, 3)
 
 
 def received_power(power_bs, num_bs, distance, frequency, rain, fooliage):
-    """ returns recieved power given the number of base stations using equation found at paper """
+    """Returns recieved power given the number of base stations.
+
+    Args:
+        power_bs: power of the base station.
+        num_bs: num of base stations.
+        frequency: the frequency at which the base station(s) operate.
+        rain: rain attenuation.
+        fooliage: foliage ghosting.
+
+    Returns:
+        A float rounded to three decimal places.
+    """
+
     return round((10 * np.log10(power_bs / num_bs) - path_loss(distance, frequency, rain, fooliage)) + 30, 3)
 
 
 def generate_cells(candidate_points_list, type_of_cell, distance_between_cells, num_of_cells, cell_list):
-    """ generate cells using the given candidate points """
+    """Generates cells using the given candidate points.
+
+    Generates required cells that can be used to create a population.
+
+    Args:
+        candidate_points_list: the list of candidate points each as a tuple
+        type_of_cell: a string representing the type of cell(eg: macro)
+                    that is to be generated.
+        distance_between_cells: the distance (in meters) between every cell.
+        num_of_cells: how many cells to be generated.
+        cell_list: an empty list pointer to fill with generated cells.
+    """
     np.random.shuffle(candidate_points_list)
     temp_candidate_points_list = copy(candidate_points_list)
 
@@ -56,7 +79,7 @@ def generate_cells(candidate_points_list, type_of_cell, distance_between_cells, 
 
 
 def print_pop(population_pool, num_macro, num_micro):
-    """ print the population in a human readable format """
+    """Print the population in a human readable format."""
     print("##########")
     print("MACRO CELLS")
     for macro_cell in population_pool[0:num_macro]:
@@ -71,7 +94,7 @@ def print_pop(population_pool, num_macro, num_micro):
 
 
 def within(x, y, size, px, py):
-    """ returns true if a point (px, py) is within a range (x, y, x+size, y+size) """
+    """Returns true if a point (px, py) is within a range (x, y, x+size, y+size)."""
     if(px >= x and px <= x + size):
         if (py >= y and py <= y + size):
             return True
