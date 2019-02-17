@@ -31,3 +31,11 @@ class User(object):
     def get_connected_bs(self):
         """Returns the base station that the user is currently connected to."""
         return self._connected_bs
+
+    def pprint(self):
+        """Returns info about the user in a human readable format."""
+
+        return """
+        x = {}
+        y = {}
+        """.format(self.get_xcoord(), self.get_ycoord())
