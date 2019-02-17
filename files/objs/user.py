@@ -1,5 +1,4 @@
 class User(object):
-
     """Representation of a single user in an area.
 
     Attributes:
