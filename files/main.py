@@ -1,9 +1,10 @@
 from .objs.cell import Cell
 from .objs.user import User
-from .helper_funcs.helper import generate_cells, distance, within, distance_between_cell, same_place, print_pop
+from .helper_funcs.helper import generate_cells, generate_users, generate_candidate_points
 
 import matplotlib.pyplot as plt
 import numpy as np
+from copy import copy
 
 
 # constants
@@ -34,25 +35,11 @@ micro_cells = []
 pool = []
 
 # generate users
-for i in range(NUM_OF_USERS):
-    x = round(np.random.uniform(0, AREA))
-    y = round(np.random.uniform(0, AREA))
-    user = User(x, y)
-    users.append(user)
+users = generate_users(NUM_OF_USERS, AREA)
 
 # generate candidate points
-for i in range(0, AREA, STEP):
-    for j in range(0, AREA, STEP):
-        users_num = 0
-        for user in users:
-            if within(i, j, STEP, user.get_xcoord(), user.get_ycoord()):
-                users_num += 1
-
-        if users_num >= USERS_THRESHOLD:
-            candidate_point_x = round(np.random.uniform(i, i + STEP))
-            candidate_point_y = round(np.random.uniform(j, j + STEP))
-            candidate_points.append((candidate_point_x, candidate_point_y))
-
+candidate_points = generate_candidate_points(
+    AREA, STEP, copy(users), USERS_THRESHOLD)
 
 # generate cells
 generate_cells(candidate_points, "macro", DISTANCE_MACROCELLS,
@@ -61,13 +48,8 @@ generate_cells(candidate_points, "micro", DISTANCE_MICROCELLS,
                NUM_MICROCELLS, micro_cells)
 
 pool = macro_cells + micro_cells
-print_pop(pool, NUM_MACROCELLS, NUM_MICROCELLS)
 
 print("# of remaining candidate points:{}".format(len(candidate_points)))
-same_place(candidate_points, macro_cells)
-same_place(candidate_points, micro_cells)
-distance_between_cell(macro_cells)
-distance_between_cell(micro_cells)
 
 users_x_positions = [user.get_xcoord() for user in users]
 users_y_positions = [user.get_ycoord() for user in users]

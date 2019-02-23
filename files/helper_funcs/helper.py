@@ -1,7 +1,7 @@
 import numpy as np
 from copy import copy
 from ..objs.cell import Cell
-
+from ..objs.user import User
 
 def distance(x1, y1, x2, y2):
     """Returns euclidean distance between 2 points."""
@@ -20,7 +20,9 @@ def fooliage(distance, frequency):
 
 def path_loss(distance, frequency, rain, fooliage):
     """Returns path loss using equation found at paper."""
-    return round(92.4 + 20 * np.log10(distance / 1000) + 20 * np.log10(frequency) + 0.06 * (distance / 1000) + round(np.random.uniform(0, 1), 3) + rain + fooliage, 3)
+    return round(92.4 + 20 * np.log10(distance / 1000) +
+                 20 * np.log10(frequency) + 0.06 * (distance / 1000) +
+                 round(np.random.uniform(0, 1), 3) + rain + fooliage, 3)
 
 
 def received_power(power_bs, num_bs, distance, frequency, rain, fooliage):
@@ -76,6 +78,34 @@ def generate_cells(candidate_points_list, type_of_cell, distance_between_cells, 
 
         if len(cell_list) >= num_of_cells:
             break
+
+def generate_users(num_of_users, area):
+    """Generate users in a uniform random way."""
+    users = []
+    for _ in range(num_of_users):
+        x = round(np.random.uniform(0, area))
+        y = round(np.random.uniform(0, area))
+        user = User(x, y)
+        users.append(user)
+    return users
+
+def generate_candidate_points(area, step, users_list, users_threshold):
+    """Generate candidate points in a uniform random way."""
+    candidate_points = []
+    for i in range(0, area, step):
+        for j in range(0, area, step):
+            users_num = 0
+            for user in users_list:
+                if within(i, j, step, user.get_xcoord(), user.get_ycoord()):
+                    users_num += 1
+
+            if users_num >= users_threshold:
+                candidate_point_x = round(np.random.uniform(i, i + step))
+                candidate_point_y = round(np.random.uniform(j, j + step))
+                candidate_points.append((candidate_point_x, candidate_point_y))
+    return candidate_points
+
+
 
 
 def print_pop(population_pool, num_macro, num_micro):
