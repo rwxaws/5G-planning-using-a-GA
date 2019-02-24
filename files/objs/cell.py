@@ -24,10 +24,8 @@ class Cell(object):
         self._cell_type = cell_type
         self._connected_users = []
         self._state = True
-        self._cost = self._calculate_cost()
-        self._min_users = self._calculate_min_users()
-        self._max_users = self._calculate_max_users()
-        self._radius = self.calculate_radius()
+
+        self._set_attributes()
 
     # getters
     def get_xcoord(self):
@@ -68,48 +66,25 @@ class Cell(object):
         """Sets the state of the base station."""
         self._state = state
 
-    def calculate_power(self):
-        pass
+    def _set_attributes(self):
+        """Set the values of attributes depending on the cell type."""
+        cell_type = self.get_cell_type()
+        if cell_type == "macro":
+            self._cost = 175
+            self._min_users = 0
+            self._max_users = 20
+            self._radius = 1000
+            self._power = 40
 
-    def calculate_radius(self):
-        """Calclate the radius that a cell covers in meters."""
+        elif cell_type == "micro":
+            self._cost = 25
+            self._min_users = 5
+            self._max_users = 15
+            self._radius = 100
+            self._power = 10
 
-        if self._cell_type == "macro":
-            return 1000
-        elif self._cell_type == "micro":
-            return 100
         else:
-            return 10
-
-    def _calculate_cost(self):
-        """Set the cost of the base station."""
-
-        if self._cell_type == "macro":
-            return 175
-        elif self._cell_type == "micro":
-            return 25
-        else:
-            return 5
-
-    def _calculate_min_users(self):
-        """Returns the minimal number of users that the base station
-            needs to be turned on."""
-
-        type = self.get_cell_type()
-        if type == "macro":
-            return 0
-        elif type == "micro":
-            return 5
-
-    def _calculate_max_users(self):
-        """Returns the maximum number of users
-        that the base station can hold."""
-
-        type = self.get_cell_type()
-        if type == "macro":
-            return 20
-        elif type == "micro":
-            return 15
+            pass  # for pico + femto
 
     def is_available(self):
         """Returns whether the base station is available
