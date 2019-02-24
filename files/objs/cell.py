@@ -15,6 +15,8 @@ class Cell(object):
                   the cell to remain active.
         _max_users: The maximum number of users that the cell can hold.
         _radius: The radius that the cell covers.
+        _power: The power at which the cell is operating.
+        _frequency: The frequency at which the cell is operating..
     """
 
     def __init__(self, xcoord, ycoord, cell_type):
@@ -56,6 +58,12 @@ class Cell(object):
         """Returns the radius that a cell covers."""
         return self._radius
 
+    def get_power(self):
+        return self._power
+
+    def get_frequency(self):
+        return self._frequency
+
     # setters
     def set_coords(self, x, y):
         """Sets the coordinates of the base station."""
@@ -75,6 +83,7 @@ class Cell(object):
             self._max_users = 20
             self._radius = 1000
             self._power = 40
+            self._frequency = 3.5
 
         elif cell_type == "micro":
             self._cost = 25
@@ -82,6 +91,7 @@ class Cell(object):
             self._max_users = 15
             self._radius = 100
             self._power = 10
+            self._frequency = 28
 
         else:
             pass  # for pico + femto
