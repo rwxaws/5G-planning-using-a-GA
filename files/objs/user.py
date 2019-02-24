@@ -11,7 +11,7 @@ class User(object):
     def __init__(self, coord_x, coord_y):
         self._coord_x = coord_x
         self._coord_y = coord_y
-        self._close_bss = None
+        self._close_bss = []
         self._connected_bs = None
 
     # getters
@@ -38,3 +38,8 @@ class User(object):
         x = {}
         y = {}
         """.format(self.get_xcoord(), self.get_ycoord())
+
+    # setters
+    def add_to_close_bss(self, base_station):
+        """Append base_station to _close_bss."""
+        self._close_bss.append(base_station)
