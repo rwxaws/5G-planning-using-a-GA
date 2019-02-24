@@ -2,6 +2,8 @@ import numpy as np
 from copy import copy
 from ..objs.cell import Cell
 from ..objs.user import User
+from ..objs.plan import Plan
+
 
 def distance(x1, y1, x2, y2):
     """Returns euclidean distance between 2 points."""
@@ -42,7 +44,7 @@ def received_power(power_bs, num_bs, distance, frequency, rain, fooliage):
     return round((10 * np.log10(power_bs / num_bs) - path_loss(distance, frequency, rain, fooliage)) + 30, 3)
 
 
-def generate_cells(candidate_points_list, type_of_cell, distance_between_cells, num_of_cells, cell_list):
+def generate_cells(candidate_points_list, type_of_cell, distance_between_cells, num_of_cells):
     """Generates cells using the given candidate points.
 
     Generates required cells that can be used to create a population.
@@ -53,10 +55,10 @@ def generate_cells(candidate_points_list, type_of_cell, distance_between_cells, 
                     that is to be generated.
         distance_between_cells: the distance (in meters) between every cell.
         num_of_cells: how many cells to be generated.
-        cell_list: an empty list pointer to fill with generated cells.
     """
     np.random.shuffle(candidate_points_list)
     temp_candidate_points_list = copy(candidate_points_list)
+    cell_list = []
 
     # append the first cell (needed to ensure that we are not looping over an empty list)
     cell_coords = candidate_points_list.pop()
@@ -78,6 +80,8 @@ def generate_cells(candidate_points_list, type_of_cell, distance_between_cells, 
 
         if len(cell_list) >= num_of_cells:
             break
+    return cell_list
+
 
 def generate_users(num_of_users, area):
     """Generate users in a uniform random way."""
@@ -88,6 +92,7 @@ def generate_users(num_of_users, area):
         user = User(x, y)
         users.append(user)
     return users
+
 
 def generate_candidate_points(area, step, users_list, users_threshold):
     """Generate candidate points in a uniform random way."""
@@ -106,6 +111,55 @@ def generate_candidate_points(area, step, users_list, users_threshold):
     return candidate_points
 
 
+def generate_initial_population(num_of_plans,
+                                candidate_points,
+                                users,
+                                num_macro,
+                                distance_macro,
+                                num_micro,
+                                distance_micro,
+                                num_pico=None,
+                                distance_pico=None,
+                                num_femto=None,
+                                distance_femto=None):
+    """Generate the initial population.
+
+    Args:
+        num_of_plans: An integer of the size of the population.
+        candidate_points: A list of candidate points.
+        users: A list of users.
+        num_macro: An integer of the number of macro cells.
+        distance_macro: An integer of the distance between each macro cell.
+        num_micro: An integer of the number of micro cells.
+        distance_macro: An integer of the distance between each micro cell.
+        num_pico: An integer of the number of pico cells.
+        distance_pico: An integer of the distance between each pico cell.
+        num_femto: An integer of the number of femto cells.
+        distance_femto: An integer of the distance between each femto cell.
+
+    Returns:
+        A list(pool) of plans.
+    """
+
+    pool = []
+    for _ in range(num_of_plans):
+        cp = copy(candidate_points)
+
+        # generate cells
+        macro_cells = generate_cells(
+            copy(cp), "macro", distance_macro, num_macro)
+        micro_cells = generate_cells(
+            copy(cp), "micro", distance_micro, num_micro)
+
+        # generate a new plan
+        plan = Plan(macro_cells + micro_cells, copy(users),
+                    cp, num_macro, num_micro)
+        pool.append(plan)
+
+        macro_cells = []
+        micro_cells = []
+        cp = []
+    return pool
 
 
 def print_pop(population_pool, num_macro, num_micro):
