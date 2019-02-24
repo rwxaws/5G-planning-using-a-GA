@@ -27,7 +27,20 @@ def path_loss(distance, frequency, rain, fooliage):
 
 
 def received_power(power_bs, num_bs, distance, frequency, rain, fooliage):
-    """Calculate received power from a base station."""
+    """Returns recieved power given the number of base stations.
+
+    Args:
+        power_bs: Power of the base station.
+        num_bs: Number of base stations.
+        distance: Distance between user and base station
+        frequency: The frequency at which the base station(s) operate.
+        rain: Rain attenuation.
+        fooliage: Fooliage loss.
+
+    Returns:
+        A float rounded to three decimal places representing the recieved power.
+    """
+
     power = (10 * np.log10(power_bs / num_bs) -
              path_loss(distance, frequency, rain, fooliage)) + 30
     return round(power, 3)
