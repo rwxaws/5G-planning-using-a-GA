@@ -14,6 +14,7 @@ class Cell(object):
         _min_users: The minimum number of users that must be maintained for
                   the cell to remain active.
         _max_users: The maximum number of users that the cell can hold.
+        _radius: The radius that the cell covers.
     """
 
     def __init__(self, xcoord, ycoord, cell_type):
@@ -26,6 +27,7 @@ class Cell(object):
         self._cost = self._calculate_cost()
         self._min_users = self._calculate_min_users()
         self._max_users = self._calculate_max_users()
+        self._radius = self.calculate_radius()
 
     # getters
     def get_xcoord(self):
@@ -52,6 +54,10 @@ class Cell(object):
         """Returns the cost of the base station."""
         return self._cost
 
+    def get_radius(self):
+        """Returns the radius that a cell covers."""
+        return self._radius
+
     # setters
     def set_coords(self, x, y):
         """Sets the coordinates of the base station."""
@@ -66,7 +72,14 @@ class Cell(object):
         pass
 
     def calculate_radius(self):
-        pass
+        """Calclate the radius that a cell covers in meters."""
+
+        if self._cell_type == "macro":
+            return 1000
+        elif self._cell_type == "micro":
+            return 100
+        else:
+            return 10
 
     def _calculate_cost(self):
         """Set the cost of the base station."""
