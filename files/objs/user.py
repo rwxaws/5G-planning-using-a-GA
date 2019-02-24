@@ -31,15 +31,24 @@ class User(object):
         """Returns the base station that the user is currently connected to."""
         return self._connected_bs
 
+    # setters
+    def set_connected_bs(self, bs):
+        self._connected_bs = bs
+
+    def add_to_close_bss(self, base_station):
+        """Append base_station to _close_bss."""
+        self._close_bss.append(base_station)
+
+    def empty_close_bss(self):
+        self._close_bss = []
+
     def pprint(self):
         """Returns info about the user in a human readable format."""
 
         return """
         x = {}
         y = {}
-        """.format(self.get_xcoord(), self.get_ycoord())
-
-    # setters
-    def add_to_close_bss(self, base_station):
-        """Append base_station to _close_bss."""
-        self._close_bss.append(base_station)
+        connected to = {}
+        """.format(self.get_xcoord(),
+                   self.get_ycoord(),
+                   self.get_connected_bs())
