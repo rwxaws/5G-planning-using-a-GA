@@ -3,45 +3,7 @@ from copy import copy
 from ..objs.cell import Cell
 from ..objs.user import User
 from ..objs.plan import Plan
-
-
-def distance(x1, y1, x2, y2):
-    """Returns euclidean distance between 2 points."""
-    return round(np.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2), 3)
-
-
-def rain_attenuation(distance):
-    """Returns rain attenuation in km."""
-    return round(9 * (distance / 1000), 3)
-
-
-def fooliage(distance, frequency):
-    """Returns fooliage ghosting."""
-    return round(0.2 * ((frequency * 1000) ** 0.3) * ((5 / 1000) ** 0.6), 3)
-
-
-def path_loss(distance, frequency, rain, fooliage):
-    """Returns path loss using equation found at paper."""
-    return round(92.4 + 20 * np.log10(distance / 1000) +
-                 20 * np.log10(frequency) + 0.06 * (distance / 1000) +
-                 round(np.random.uniform(0, 1), 3) + rain + fooliage, 3)
-
-
-def received_power(power_bs, num_bs, distance, frequency, rain, fooliage):
-    """Returns recieved power given the number of base stations.
-
-    Args:
-        power_bs: power of the base station.
-        num_bs: num of base stations.
-        frequency: the frequency at which the base station(s) operate.
-        rain: rain attenuation.
-        fooliage: foliage ghosting.
-
-    Returns:
-        A float rounded to three decimal places.
-    """
-
-    return round((10 * np.log10(power_bs / num_bs) - path_loss(distance, frequency, rain, fooliage)) + 30, 3)
+from ..network.net_funcs import distance
 
 
 def generate_cells(candidate_points_list, type_of_cell, distance_between_cells, num_of_cells):
@@ -146,14 +108,21 @@ def generate_initial_population(num_of_plans,
         cp = copy(candidate_points)
 
         # generate cells
-        macro_cells = generate_cells(
-            copy(cp), "macro", distance_macro, num_macro)
-        micro_cells = generate_cells(
-            copy(cp), "micro", distance_micro, num_micro)
+        macro_cells = generate_cells(copy(cp),
+                                     "macro",
+                                     distance_macro,
+                                     num_macro)
+        micro_cells = generate_cells(copy(cp),
+                                     "micro",
+                                     distance_micro,
+                                     num_micro)
 
         # generate a new plan
-        plan = Plan(macro_cells + micro_cells, copy(users),
-                    cp, num_macro, num_micro)
+        plan = Plan(macro_cells + micro_cells,
+                    copy(users),
+                    copy(cp),
+                    num_macro,
+                    num_micro)
         pool.append(plan)
 
         macro_cells = []
@@ -183,20 +152,3 @@ def within(x, y, size, px, py):
         if (py >= y and py <= y + size):
             return True
     return False
-
-
-def distance_between_cell(cell_list):
-    # TODO: Implement(remove get_coords)
-    pass
-    # for cell in cell_list:
-    #     for other in cell_list:
-    #         pass
-    #         print("Distance = {} cell {} and cell {}, coords = ({}) ({})".format(distance(cell.get_coords()[0], other.get_coords()[0], cell.get_coords()[1], other.get_coords()[1]), cell_list.index(cell), cell_list.index(other), cell.get_coords(), other.get_coords()))
-
-
-def same_place(cpl, cl):
-    pass
-    # for cp in cpl:
-    #     for c in cl:
-    #         if (cp[0] == c.get_xcoord()) and (cp[1] == c.get_ycoord()):
-    #             print("Same Place")
