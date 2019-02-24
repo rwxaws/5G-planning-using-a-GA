@@ -74,6 +74,15 @@ class Plan(object):
         return self._candidate_points
 
     # setters
+    def calculate_connected_users(self):
+        users = self.get_users()
+        total_users = len(users)
+        connected_users = 0
+
+        for user in users:
+            if user.is_connected():
+                connected_users += 1
+        return round((connected_users / total_users), 3)
 
     def pprint(self, include_users=False):
         """Print the plan's cells and users in a human readable format.
