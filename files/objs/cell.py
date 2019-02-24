@@ -96,6 +96,9 @@ class Cell(object):
         else:
             pass  # for pico + femto
 
+    def add_user(self, user):
+        self._connected_users.append(user)
+
     def is_available(self):
         """Returns whether the base station is available
         for the user to connect to."""
