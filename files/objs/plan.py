@@ -4,6 +4,7 @@ class Plan(object):
     Attributes:
         _cell_list: List of all the cells in a given plan
         _users: List of the users associated with the plan
+        _candidate_points: List of candidate points used by the plan
         _macro_cells: List of macro cells in the plan
         _micro_cells: List of micro cells in the plan(can be empty)
         _pico_cells: List of pico cells in the plan(can be empty)
@@ -14,12 +15,14 @@ class Plan(object):
             self,
             cell_list,
             users,
+            candidate_points,
             num_macro_cells,
             num_micro_cells=None,
             num_pico_cells=None,
             num_femto_cells=None):
 
         self._users = users
+        self._candidate_points = candidate_points
         self._macro_cells = cell_list[0: num_macro_cells]
 
         if num_micro_cells is not None:
@@ -65,6 +68,10 @@ class Plan(object):
     def get_users(self):
         """Returns the list of users associated with the plan."""
         return self._users
+
+    def get_candidate_points(self):
+        """Returns the list of candidate points."""
+        return self._candidate_points
 
     # setters
 
