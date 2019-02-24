@@ -42,13 +42,18 @@ class User(object):
     def empty_close_bss(self):
         self._close_bss = []
 
+    def is_connected(self):
+        if self.get_connected_bs() is not None:
+            return True
+        return False
+
     def pprint(self):
         """Returns info about the user in a human readable format."""
 
         return """
         x = {}
         y = {}
-        connected to = {}
+    connected to = {}
         """.format(self.get_xcoord(),
                    self.get_ycoord(),
                    self.get_connected_bs())
