@@ -75,6 +75,7 @@ class Plan(object):
 
     # setters
     def calculate_connected_users(self):
+        """Calculate the number of connected users in the plan."""
         users = self.get_users()
         total_users = len(users)
         connected_users = 0
@@ -82,7 +83,12 @@ class Plan(object):
         for user in users:
             if user.is_connected():
                 connected_users += 1
-        return round((connected_users / total_users), 3)
+        return round((connected_users / total_users), 2)
+
+    def disconnect_unneeded_cells(self):
+        """Disconnect cells that don't have enough users to be active."""
+        for cell in self.get_cells():
+            cell.check_if_needed()
 
     def pprint(self, include_users=False):
         """Print the plan's cells and users in a human readable format.
