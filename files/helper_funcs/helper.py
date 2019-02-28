@@ -1,5 +1,5 @@
 import numpy as np
-from copy import copy
+import copy
 from ..objs.cell import Cell
 from ..objs.user import User
 from ..objs.plan import Plan
@@ -19,7 +19,7 @@ def generate_cells(candidate_points_list, type_of_cell, distance_between_cells, 
         num_of_cells: how many cells to be generated.
     """
     np.random.shuffle(candidate_points_list)
-    temp_candidate_points_list = copy(candidate_points_list)
+    temp_candidate_points_list = copy.deepcopy(candidate_points_list)
     cell_list = []
 
     # append the first cell (needed to ensure that we are not looping over an empty list)
@@ -105,22 +105,23 @@ def generate_initial_population(num_of_plans,
 
     pool = []
     for _ in range(num_of_plans):
-        cp = copy(candidate_points)
+        cp = copy.deepcopy(candidate_points)
+        np.random.shuffle(cp)
 
         # generate cells
-        macro_cells = generate_cells(copy(cp),
+        macro_cells = generate_cells(cp,
                                      "macro",
                                      distance_macro,
                                      num_macro)
-        micro_cells = generate_cells(copy(cp),
+        micro_cells = generate_cells(cp,
                                      "micro",
                                      distance_micro,
                                      num_micro)
 
         # generate a new plan
         plan = Plan(macro_cells + micro_cells,
-                    copy(users),
-                    copy(cp),
+                    copy.deepcopy(users),
+                    copy.deepcopy(cp),
                     num_macro,
                     num_micro)
         pool.append(plan)
@@ -131,17 +132,20 @@ def generate_initial_population(num_of_plans,
     return pool
 
 
-def connect_users(pool, num_macro, num_micro):
+def connect_users(pool, num_macro, num_micro, num_pico=None, num_femto=None):
     """Connect users of each plan in pool to available cellular cells."""
 
     # iterate over every plan
     for plan in pool:
+        # iterate over each user in the plan
         for user in plan.get_users():
             user.empty_close_bss()
+            # loop over every cell in the plan
             for cell in plan.get_cells():
                 # if user is within the radius of the cell
                 if distance(user.get_xcoord(), user.get_ycoord(), cell.get_xcoord(),
                             cell.get_ycoord()) < cell.get_radius():
+                    # if cell is available
                     if cell.is_available():
                         user.add_to_close_bss(cell)
 
