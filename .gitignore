@@ -149,4 +149,7 @@ dmypy.json
 # Ignore all local history of files
 .history
 
+### Extra ###
+*.csv
+
 # End of https://www.gitignore.io/api/linux,python,visualstudiocode
