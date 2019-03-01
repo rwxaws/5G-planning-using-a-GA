@@ -1,3 +1,6 @@
+from ..network.net_funcs import distance, received_power
+
+
 class Plan(object):
     """Representation of a single plan(cells + users)
 
@@ -73,7 +76,52 @@ class Plan(object):
         """Returns the list of candidate points."""
         return self._candidate_points
 
+    def get_num_cells(self, cell_type="macro"):
+        return len(self.get_cells(cell_type))
+
     # setters
+    def connect_users(self):
+        """Connect users of each plan in pool to available cellular cells."""
+        for user in self.get_users():
+            user.empty_close_bss()
+            for cell in self.get_cells():
+                # if user is within the radius of the cell
+                if distance(user.get_xcoord(), user.get_ycoord(), cell.get_xcoord(),
+                            cell.get_ycoord()) < cell.get_radius():
+                    # if cell is available
+                    if cell.is_available():
+                        user.add_to_close_bss(cell)
+
+            # if user is within at least one base station range
+            if len(user.get_close_bss()):
+                desired = user.get_close_bss()[0]
+                for tested_cell in user.get_close_bss()[1:]:
+                    dist1 = distance(desired.get_xcoord(),
+                                     desired.get_ycoord(),
+                                     user.get_xcoord(),
+                                     user.get_ycoord())
+                    dist2 = distance(tested_cell.get_xcoord(),
+                                     tested_cell.get_ycoord(),
+                                     user.get_xcoord(),
+                                     user.get_ycoord())
+
+                    num_bs = self.get_num_cells(desired.get_cell_type())
+                    power1 = received_power(desired.get_power(),
+                                            num_bs,
+                                            dist1,
+                                            desired.get_frequency(), 0, 0)
+
+                    num_bs = self.get_num_cells(tested_cell.get_cell_type())
+                    power2 = received_power(tested_cell.get_power(),
+                                            num_bs,
+                                            dist2,
+                                            tested_cell.get_frequency(), 0, 0)
+
+                    if power2 > power1:
+                        desired = tested_cell
+                user.set_connected_bs(desired)
+                desired.add_user(user)
+
     def calculate_connected_users(self):
         """Calculate the number of connected users in the plan."""
         users = self.get_users()
