@@ -1,34 +1,27 @@
-from .objs.cell import Cell
-from .objs.user import User
-from .objs.plan import Plan
-from .helper_funcs.generators_funcs import (generate_users,
-                                            generate_candidate_points,
-                                            generate_initial_population)
+import copy
+import csv
 
 import numpy as np
-import copy
 
+from .helper_funcs.generators_funcs import (generate_candidate_points,
+                                            generate_initial_population,
+                                            generate_users)
+from .objs.cell import Cell
+from .objs.plan import Plan
+from .objs.user import User
 
 # constants
 AREA = 3000
 STEP = 250
 USERS_THRESHOLD = 5
 NUM_USERS = 850
-NUM_CHROMOSOMES = 5
+NUM_CHROMOSOMES = 1
 NUM_MACROCELLS = 5
 NUM_MICROCELLS = 10
 DISTANCE_MACROCELLS = 1000
 DISTANCE_MICROCELLS = 100
 FREQ_MACRO = 3.5
 FREQ_SMALL_CELLS = 28
-# NUM_USERS = int(input("Enter the number of users:"))
-# AREA = int(input("Enter the search area:"))
-# STEP = int(input("Enter step size:"))
-# USERS_THRESHOLD = int(input("Enter users threshold:"))
-# NUM_MACROCELLS = int(input("Enter macrocells number:"))
-# NUM_MICROCELLS = int(input("Enter microcells number:"))
-# DISTANCE_MACROCELLS = int(input("Enter the distance between macrocells:"))
-# DISTANCE_MICROCELLS = int(input("Enter the distance between microcells:"))
 
 # lists
 users = []
@@ -52,3 +45,16 @@ pool = generate_initial_population(NUM_CHROMOSOMES,
                                    DISTANCE_MACROCELLS,
                                    NUM_MICROCELLS,
                                    DISTANCE_MICROCELLS)
+
+pool[0].connect_users()
+pool[0].disconnect_unneeded_cells()
+
+with open("users_file.csv", mode="w") as users_file:
+    users_file_writer = csv.writer(users_file, delimiter=",")
+    users_file_writer.writerow(["pos", "coordinates", "BS type"])
+    for position, users in enumerate(pool[0].get_users()):
+        user_pos = position
+        user_coords = (users.get_xcoord(), users.get_ycoord())
+        bs_type = users.get_connected_bs().get_cell_type() if users.is_connected() else "none"
+
+        users_file_writer.writerow([user_pos, user_coords, bs_type])

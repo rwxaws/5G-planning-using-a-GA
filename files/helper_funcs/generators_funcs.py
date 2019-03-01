@@ -1,10 +1,11 @@
 import copy
+
 import numpy as np
 
-from ..objs.user import User
-from ..objs.plan import Plan
-from ..objs.cell import Cell
 from ..network.net_funcs import distance
+from ..objs.cell import Cell
+from ..objs.plan import Plan
+from ..objs.user import User
 from .helper import within
 
 
