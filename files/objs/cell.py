@@ -82,25 +82,19 @@ class Cell(object):
 
     def _set_attributes(self):
         """Set the values of attributes depending on the cell type."""
+        properties = {"fixed_macro": [175, 0, 20, 1000, 40, 3.5],
+                      "macro": [175, 10, 20, 1000, 40, 3.5],
+                      "micro": [25, 5, 10, 100, 10, 28],
+                      "pico": 5,
+                      "femto": 1}
+
         cell_type = self.get_cell_type()
-        if cell_type == "macro":
-            self._cost = 175
-            self._min_users = 0
-            self._max_users = 20
-            self._radius = 1000
-            self._power = 40
-            self._frequency = 3.5
-
-        elif cell_type == "micro":
-            self._cost = 25
-            self._min_users = 5
-            self._max_users = 15
-            self._radius = 100
-            self._power = 10
-            self._frequency = 28
-
-        else:
-            pass  # for pico + femto
+        self._cost = properties[cell_type][0]
+        self._min_users = properties[cell_type][1]
+        self._max_users = properties[cell_type][2]
+        self._radius = properties[cell_type][3]
+        self._power = properties[cell_type][4]
+        self._frequency = properties[cell_type][5]
 
     def add_user(self, user):
         """Adds the user to the list of connected users."""
