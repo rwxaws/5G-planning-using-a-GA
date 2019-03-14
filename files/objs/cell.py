@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class Cell(object):
     """Representations of cellular network cells.
 
@@ -81,19 +82,35 @@ class Cell(object):
 
     def _set_attributes(self):
         """Set the values of attributes depending on the cell type."""
-        properties = {"fixed_macro": [0, 0, 20, 1000, 40, 3.5],
-                      "macro": [175, 10, 20, 1000, 40, 3.5],
-                      "micro": [25, 5, 10, 100, 10, 28],
-                      "pico": 5,
-                      "femto": 1}
+        properties = {
+            "fixed_macro":
+            {"cost": 0, "min_users": 0, "max_users": 20,
+             "radius": 1000, "power": 40, "frequency": 3.5},
+
+            "macro":
+            {"cost": 175, "min_users": 10, "max_users": 20,
+                          "radius": 1000, "power": 40, "frequency": 3.5},
+
+            "micro":
+            {"cost": 25, "min_users": 5, "max_users": 10,
+             "radius": 100, "power": 10, "frequency": 28},
+
+            "pico":
+            {"cost": 5, "min_users": None, "max_users": None,
+             "radius": None, "power": None, "frequency": None},
+
+            "femto":
+            {"cost": 1, "min_users": None, "max_users": None,
+             "radius": None, "power": None, "frequency": None}
+        }
 
         cell_type = self.get_cell_type()
-        self._cost = properties[cell_type][0]
-        self._min_users = properties[cell_type][1]
-        self._max_users = properties[cell_type][2]
-        self._radius = properties[cell_type][3]
-        self._power = properties[cell_type][4]
-        self._frequency = properties[cell_type][5]
+        self._cost = properties[cell_type]["cost"]
+        self._min_users = properties[cell_type]["min_users"]
+        self._max_users = properties[cell_type]["max_users"]
+        self._radius = properties[cell_type]["radius"]
+        self._power = properties[cell_type]["power"]
+        self._frequency = properties[cell_type]["frequency"]
 
     def add_user(self, user):
         """Adds the user to the list of connected users."""
