@@ -9,7 +9,7 @@ from ..objs.user import User
 from .helper import within
 
 
-def generate_cells(candidate_points_list, type_of_cell, distance_between_cells, num_of_cells):
+def generate_cells(candidate_points_list, type_of_cell, num_of_cells, distance_between_cells):
     """Generates cells using the given candidate points.
 
     Generates required cells that can be used to create a population.
@@ -18,8 +18,8 @@ def generate_cells(candidate_points_list, type_of_cell, distance_between_cells, 
         candidate_points_list: the list of candidate points each as a tuple
         type_of_cell: a string representing the type of cell(eg: macro)
                     that is to be generated.
-        distance_between_cells: the distance (in meters) between every cell.
         num_of_cells: how many cells to be generated.
+        distance_between_cells: the distance (in meters) between every cell.
     """
     np.random.shuffle(candidate_points_list)
     temp_candidate_points_list = copy.deepcopy(candidate_points_list)
@@ -79,6 +79,8 @@ def generate_candidate_points(area, step, users_list, users_threshold):
 def generate_initial_population(num_of_plans,
                                 candidate_points,
                                 users,
+                                num_fixed_macro,
+                                distance_fixed_macro,
                                 num_macro,
                                 distance_macro,
                                 num_micro,
@@ -93,6 +95,8 @@ def generate_initial_population(num_of_plans,
         num_of_plans: An integer of the size of the population.
         candidate_points: A list of candidate points.
         users: A list of users.
+        num_fixed_macro: An integer of the number of fixed macro cells.
+        distance_fixed_macro: An integer of the distance between each fixed macro cell.
         num_macro: An integer of the number of macro cells.
         distance_macro: An integer of the distance between each macro cell.
         num_micro: An integer of the number of micro cells.
@@ -112,23 +116,29 @@ def generate_initial_population(num_of_plans,
         np.random.shuffle(cp)
 
         # generate cells
+        fixed_macro_cells = generate_cells(cp,
+                                           "fixed_macro",
+                                           num_fixed_macro,
+                                           distance_fixed_macro)
         macro_cells = generate_cells(cp,
                                      "macro",
-                                     distance_macro,
-                                     num_macro)
+                                     num_macro,
+                                     distance_macro)
         micro_cells = generate_cells(cp,
                                      "micro",
-                                     distance_micro,
-                                     num_micro)
+                                     num_micro,
+                                     distance_micro)
 
         # generate a new plan
-        plan = Plan(macro_cells + micro_cells,
+        plan = Plan(fixed_macro_cells + macro_cells + micro_cells,
                     copy.deepcopy(users),
                     copy.deepcopy(cp),
+                    num_fixed_macro,
                     num_macro,
                     num_micro)
         pool.append(plan)
 
+        fixed_macro_cells = []
         macro_cells = []
         micro_cells = []
         cp = []

@@ -1,6 +1,5 @@
 import numpy as np
 
-
 class Cell(object):
     """Representations of cellular network cells.
 
@@ -82,7 +81,7 @@ class Cell(object):
 
     def _set_attributes(self):
         """Set the values of attributes depending on the cell type."""
-        properties = {"fixed_macro": [175, 0, 20, 1000, 40, 3.5],
+        properties = {"fixed_macro": [0, 0, 20, 1000, 40, 3.5],
                       "macro": [175, 10, 20, 1000, 40, 3.5],
                       "micro": [25, 5, 10, 100, 10, 28],
                       "pico": 5,

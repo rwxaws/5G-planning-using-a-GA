@@ -5,13 +5,14 @@ class Plan(object):
     """Representation of a single plan(cells + users)
 
     Attributes:
-        _cell_list: List of all the cells in a given plan
-        _users: List of the users associated with the plan
-        _candidate_points: List of candidate points used by the plan
-        _macro_cells: List of macro cells in the plan
-        _micro_cells: List of micro cells in the plan(can be empty)
-        _pico_cells: List of pico cells in the plan(can be empty)
-        _femto_cells: List of femto cells in the plan(can be empty)
+        _cell_list: List of all the cells in a given plan.
+        _users: List of the users associated with the plan.
+        _candidate_points: List of candidate points used by the plan.
+        _fixed_macro_cells: List of fixed macro cells(inherited from 4G).
+        _macro_cells: List of macro cells in the plan.
+        _micro_cells: List of micro cells in the plan(can be empty).
+        _pico_cells: List of pico cells in the plan(can be empty).
+        _femto_cells: List of femto cells in the plan(can be empty).
     """
 
     def __init__(
@@ -19,6 +20,7 @@ class Plan(object):
             cell_list,
             users,
             candidate_points,
+            num_fixed_macro_cells,
             num_macro_cells,
             num_micro_cells=None,
             num_pico_cells=None,
@@ -26,11 +28,19 @@ class Plan(object):
 
         self._users = users
         self._candidate_points = candidate_points
-        self._macro_cells = cell_list[0: num_macro_cells]
+
+        current_begin = 0
+        current_end = num_fixed_macro_cells
+        self._fixed_macro_cells = cell_list[current_begin: current_end]
+
+        current_begin = current_end
+        current_end = num_fixed_macro_cells + num_macro_cells
+        self._macro_cells = cell_list[current_begin:current_end]
 
         if num_micro_cells is not None:
-            self._micro_cells = cell_list[num_macro_cells:
-                                          num_macro_cells + num_micro_cells]
+            current_begin = current_end
+            current_end = num_fixed_macro_cells + num_macro_cells + num_micro_cells
+            self._micro_cells = cell_list[current_begin:current_end]
         else:
             self._micro_cells = []
 
@@ -56,8 +66,10 @@ class Plan(object):
         """
 
         if cells_type == "all":
-            cells = self._macro_cells + self._micro_cells + \
-                self._pico_cells + self._femto_cells
+            cells = self._fixed_macro_cells + self._macro_cells + \
+                self._micro_cells + self._pico_cells + self._femto_cells
+        elif cells_type == "fixed_macro":
+            cells = self._fixed_macro_cells
         elif cells_type == "macro":
             cells = self._macro_cells
         elif cells_type == "micro":
@@ -131,7 +143,15 @@ class Plan(object):
         for user in users:
             if user.is_connected():
                 connected_users += 1
-        return round((connected_users / total_users), 2)
+        return (connected_users / total_users) * 100
+
+    def calculate_cost(self):
+        cost = 0
+        for cell in self.get_cells():
+            # import pdb; pdb.set_trace()
+            if cell.get_state():
+                cost += cell.get_cost()
+        return cost
 
     def disconnect_unneeded_cells(self):
         """Disconnect cells that don't have enough users to be active."""

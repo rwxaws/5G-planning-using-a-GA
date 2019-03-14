@@ -1,8 +1,6 @@
 import copy
 import csv
 
-import numpy as np
-
 from .helper_funcs.generators_funcs import (generate_candidate_points,
                                             generate_initial_population,
                                             generate_users)
@@ -14,10 +12,12 @@ from .objs.user import User
 AREA = 3000
 STEP = 250
 USERS_THRESHOLD = 5
-NUM_USERS = 850
-NUM_CHROMOSOMES = 1
+NUM_USERS = 1000
+NUM_CHROMOSOMES = 50
+NUM_FIXED_MACROCELLS = 5
 NUM_MACROCELLS = 5
-NUM_MICROCELLS = 10
+NUM_MICROCELLS = 20
+DISTANCE_FIXED_MACROCELLS = 1000
 DISTANCE_MACROCELLS = 1000
 DISTANCE_MICROCELLS = 100
 FREQ_MACRO = 3.5
@@ -34,27 +34,37 @@ pool = []
 users = generate_users(NUM_USERS, AREA)
 
 # generate candidate points
-candidate_points = generate_candidate_points(
-    AREA, STEP, copy.deepcopy(users), USERS_THRESHOLD)
+candidate_points = generate_candidate_points(AREA,
+                                             STEP,
+                                             copy.deepcopy(users),
+                                             USERS_THRESHOLD)
 
 
 # generate initial population
 pool = generate_initial_population(NUM_CHROMOSOMES,
-                                   candidate_points, users,
+                                   candidate_points,
+                                   users,
+                                   NUM_FIXED_MACROCELLS,
+                                   DISTANCE_FIXED_MACROCELLS,
                                    NUM_MACROCELLS,
                                    DISTANCE_MACROCELLS,
                                    NUM_MICROCELLS,
                                    DISTANCE_MICROCELLS)
 
-pool[0].connect_users()
-pool[0].disconnect_unneeded_cells()
+for plan in pool[0:1]:
+    plan.connect_users()
+    plan.disconnect_unneeded_cells()
+    print(plan.calculate_connected_users())
+    print(plan.calculate_cost())
 
-with open("users_file.csv", mode="w") as users_file:
+
+with open("./files/users_file.csv", mode="w") as users_file:
     users_file_writer = csv.writer(users_file, delimiter=",")
-    users_file_writer.writerow(["pos", "coordinates", "BS type"])
-    for position, users in enumerate(pool[0].get_users()):
-        user_pos = position
-        user_coords = (users.get_xcoord(), users.get_ycoord())
-        bs_type = users.get_connected_bs().get_cell_type() if users.is_connected() else "none"
-
-        users_file_writer.writerow([user_pos, user_coords, bs_type])
+    users_file_writer.writerow(["cell_pos",
+                                "BS type",
+                                "Num of connected users"])
+    for position, cell in enumerate(pool[0].get_cells()):
+        cell_pos = position
+        bs_type = cell.get_cell_type()
+        num_users = cell.get_num_connected_users()
+        users_file_writer.writerow([cell_pos, bs_type, num_users])
