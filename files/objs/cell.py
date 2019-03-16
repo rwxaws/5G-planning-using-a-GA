@@ -1,5 +1,24 @@
 import numpy as np
 
+from ..consts.constants import (FIXED_MACRO_COST,
+                                MACRO_COST,
+                                MICRO_COST,
+                                FIXED_MACRO_MIN_USERS,
+                                FIXED_MACRO_MAX_USERS,
+                                MACRO_MIN_USERS,
+                                MACRO_MAX_USERS,
+                                MICRO_MIN_USERS,
+                                MICRO_MAX_USERS,
+                                FIXED_MACRO_RADIUS,
+                                MACRO_RADIUS,
+                                MICRO_RADIUS,
+                                FIXED_MACRO_POWER,
+                                MACRO_POWER,
+                                MICRO_POWER,
+                                FIXED_MACRO_FREQ,
+                                MACRO_FREQ,
+                                SMALL_CELL_FREQ)
+
 
 class Cell(object):
     """Representations of cellular network cells.
@@ -84,16 +103,34 @@ class Cell(object):
         """Set the values of attributes depending on the cell type."""
         properties = {
             "fixed_macro":
-            {"cost": 0, "min_users": 0, "max_users": 20,
-             "radius": 1000, "power": 40, "frequency": 3.5},
+            {
+                "cost": FIXED_MACRO_COST,
+                "min_users": FIXED_MACRO_MIN_USERS,
+                "max_users": FIXED_MACRO_MAX_USERS,
+                "radius": FIXED_MACRO_RADIUS,
+                "power": FIXED_MACRO_POWER,
+                "frequency": FIXED_MACRO_FREQ
+            },
 
             "macro":
-            {"cost": 175, "min_users": 10, "max_users": 20,
-                          "radius": 1000, "power": 40, "frequency": 3.5},
+            {
+                "cost": MACRO_COST,
+                "min_users": MACRO_MIN_USERS,
+                "max_users": MACRO_MAX_USERS,
+                "radius": MACRO_RADIUS,
+                "power": MACRO_POWER,
+                "frequency": MACRO_FREQ
+            },
 
             "micro":
-            {"cost": 25, "min_users": 5, "max_users": 10,
-             "radius": 100, "power": 10, "frequency": 28},
+            {
+                "cost": MICRO_COST,
+                "min_users": MICRO_MIN_USERS,
+                "max_users": MICRO_MAX_USERS,
+                "radius": MICRO_RADIUS,
+                "power": MICRO_POWER,
+                "frequency": SMALL_CELL_FREQ
+            },
 
             "pico":
             {"cost": 5, "min_users": None, "max_users": None,
