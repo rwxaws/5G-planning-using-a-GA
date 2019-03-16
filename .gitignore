@@ -152,5 +152,7 @@ dmypy.json
 ### Extra ###
 *.csv
 
-# End of https://www.gitignore.io/api/linux,python,visualstudiocode
+### Files ###
 files/testing.py
+
+# End of https://www.gitignore.io/api/linux,python,visualstudiocode
