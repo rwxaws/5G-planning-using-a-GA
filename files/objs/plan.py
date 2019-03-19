@@ -69,13 +69,16 @@ class Plan(object):
 
         Args:
             cells_type: A string of the desired cells
-                      it accepts the following(all, macro, micro, pico, femto).
+                      it accepts the following(all, nonfixed, fixedmacro, micro, pico, femto).
         """
 
         if cells_type == "all":
             cells = self._fixed_macro_cells + self._macro_cells + \
                 self._micro_cells + self._pico_cells + self._femto_cells
-        elif cells_type == "fixed_macro":
+        elif cells_type == "nonfixed":
+            cells = self._macro_cells + self._micro_cells + \
+                self._pico_cells + self._femto_cells
+        elif cells_type == "fixedmacro":
             cells = self._fixed_macro_cells
         elif cells_type == "macro":
             cells = self._macro_cells
