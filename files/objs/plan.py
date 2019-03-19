@@ -13,6 +13,9 @@ class Plan(object):
         _micro_cells: List of micro cells in the plan(can be empty).
         _pico_cells: List of pico cells in the plan(can be empty).
         _femto_cells: List of femto cells in the plan(can be empty).
+        _cost: Cost in dollars.
+        _fitness: Fitness of current plan.
+        _connected_users: Number of connected users.
     """
 
     def __init__(
@@ -56,6 +59,10 @@ class Plan(object):
         else:
             self._femto_cells = []
 
+        self._cost = None
+        self._fitness = None
+        self._connected_users = None
+
     # getters
     def get_cells(self, cells_type="all"):
         """Returns a list of cells in the plan.
@@ -83,6 +90,15 @@ class Plan(object):
     def get_users(self):
         """Returns the list of users associated with the plan."""
         return self._users
+
+    def get_num_of_connected_users(self):
+        return self._connected_users
+
+    def get_cost(self):
+        return self._cost
+
+    def get_fitness(self):
+        return self._fitness
 
     def get_candidate_points(self):
         """Returns the list of candidate points."""
@@ -137,13 +153,12 @@ class Plan(object):
     def calculate_connected_users(self):
         """Calculate the number of connected users in the plan."""
         users = self.get_users()
-        total_users = len(users)
         connected_users = 0
 
         for user in users:
             if user.is_connected():
                 connected_users += 1
-        return (connected_users / total_users) * 100
+        self._connected_users = connected_users
 
     def calculate_cost(self):
         cost = 0
@@ -151,33 +166,30 @@ class Plan(object):
             # import pdb; pdb.set_trace()
             if cell.get_state():
                 cost += cell.get_cost()
-        return cost
+        self._cost = cost
 
     def disconnect_unneeded_cells(self):
         """Disconnect cells that don't have enough users to be active."""
         for cell in self.get_cells():
             cell.check_if_needed()
 
-    def pprint(self, include_users=False):
-        """Print the plan's cells and users in a human readable format.
+    def calculate_fitness(self):
+        self._fitness = self._cost
 
-        Args:
-            include_users: A bool determining whether the users info are to be
-                         printed or not.
-        """
+    def operate(self):
+        """Operate the plan, by doing the necessary operations."""
+        self.connect_users()
+        self.disconnect_unneeded_cells()
+        self.calculate_connected_users()
+        self.calculate_cost()
+        self.calculate_fitness()
 
-        cells = self.get_cells()
-        users = self.get_users()
+    def pprint(self):
+        """Print the plan's attributes."""
 
-        print("#####")
-        print("CELLS")
-        print("#####")
-        for cell in cells:
-            print(cell.pprint())
-
-        if include_users:
-            print("#####")
-            print("USERS")
-            print("#####")
-            for user in users:
-                print(user.pprint())
+        return """
+        # of connected users: {} of {}
+        fitness             : {}
+        """.format(self.get_num_of_connected_users(),
+                   len(self.get_users()),
+                   self.get_fitness())
