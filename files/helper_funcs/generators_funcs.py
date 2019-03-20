@@ -69,8 +69,8 @@ def generate_candidate_points(area, step, users_list, users_threshold):
                     users_num += 1
 
             if users_num >= users_threshold:
-                candidate_point_x = round(np.random.uniform(i, i + step))
-                candidate_point_y = round(np.random.uniform(j, j + step))
+                candidate_point_x = round(np.random.uniform(i, i + step), 3)
+                candidate_point_y = round(np.random.uniform(j, j + step), 3)
                 candidate_points.append((candidate_point_x, candidate_point_y))
     return candidate_points
 
