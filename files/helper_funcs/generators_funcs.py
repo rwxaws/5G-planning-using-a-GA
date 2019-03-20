@@ -29,9 +29,10 @@ def generate_cells(candidate_points_list, type_of_cell, num_of_cells, distance_b
     cell_coords = candidate_points_list.pop()
     cell = Cell(cell_coords[0], cell_coords[1], type_of_cell)
     cell_list.append(cell)
-
-    # look for the remainding candidate points
+    # look for the remaining candidate points
     for cp in temp_candidate_points_list:
+        if len(cell_list) >= num_of_cells:
+            break
         is_well_positioned = True
         for c in cell_list:
             if distance(cp[0], c.get_xcoord(), cp[1], c.get_ycoord()) < distance_between_cells:
@@ -43,8 +44,6 @@ def generate_cells(candidate_points_list, type_of_cell, num_of_cells, distance_b
             cell_list.append(cell)
             candidate_points_list.pop(candidate_points_list.index(cp))
 
-        if len(cell_list) >= num_of_cells:
-            break
     return cell_list
 
 
@@ -114,7 +113,6 @@ def generate_initial_population(num_of_plans,
     for _ in range(num_of_plans):
         cp = copy.deepcopy(candidate_points)
         np.random.shuffle(cp)
-
         # generate cells
         fixed_macro_cells = generate_cells(cp,
                                            "fixed_macro",
