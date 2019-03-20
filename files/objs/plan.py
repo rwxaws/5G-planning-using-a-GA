@@ -37,25 +37,27 @@ class Plan(object):
         self._fixed_macro_cells = cell_list[current_begin: current_end]
 
         current_begin = current_end
-        current_end = num_fixed_macro_cells + num_macro_cells
-        self._macro_cells = cell_list[current_begin:current_end]
+        current_end = current_begin + num_macro_cells
+        self._macro_cells = cell_list[current_begin: current_end]
 
         if num_micro_cells is not None:
             current_begin = current_end
-            current_end = num_fixed_macro_cells + num_macro_cells + num_micro_cells
-            self._micro_cells = cell_list[current_begin:current_end]
+            current_end = current_begin + num_micro_cells
+            self._micro_cells = cell_list[current_begin: current_end]
         else:
             self._micro_cells = []
 
         if num_pico_cells is not None:
-            self._pico_cells = cell_list[num_macro_cells +
-                                         num_micro_cells: num_macro_cells + num_pico_cells+num_pico_cells]
+            current_begin = current_end
+            current_end = current_begin + num_pico_cells
+            self._pico_cells = cell_list[current_begin: current_end]
         else:
             self._pico_cells = []
 
         if num_femto_cells is not None:
-            self._femto_cells = cell_list[num_macro_cells +
-                                          num_micro_cells + num_pico_cells: num_macro_cells + num_pico_cells + num_pico_cells + num_femto_cells]
+            current_begin = current_end
+            current_end = current_begin + num_femto_cells
+            self._femto_cells = cell_list[current_begin: current_end]
         else:
             self._femto_cells = []
 
@@ -69,16 +71,23 @@ class Plan(object):
 
         Args:
             cells_type: A string of the desired cells
-                      it accepts the following(all, nonfixed, fixedmacro, micro, pico, femto).
+                      it accepts the following(
+                          all,
+                          non_fixed,
+                          fixed_macro,
+                          micro,
+                          pico,
+                          femto
+                          ).
         """
 
         if cells_type == "all":
             cells = self._fixed_macro_cells + self._macro_cells + \
                 self._micro_cells + self._pico_cells + self._femto_cells
-        elif cells_type == "nonfixed":
+        elif cells_type == "non_fixed":
             cells = self._macro_cells + self._micro_cells + \
                 self._pico_cells + self._femto_cells
-        elif cells_type == "fixedmacro":
+        elif cells_type == "fixed_macro":
             cells = self._fixed_macro_cells
         elif cells_type == "macro":
             cells = self._macro_cells
@@ -166,7 +175,6 @@ class Plan(object):
     def calculate_cost(self):
         cost = 0
         for cell in self.get_cells():
-            # import pdb; pdb.set_trace()
             if cell.get_state():
                 cost += cell.get_cost()
         self._cost = cost
