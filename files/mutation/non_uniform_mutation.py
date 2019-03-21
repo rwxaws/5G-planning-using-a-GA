@@ -14,7 +14,7 @@ def non_uniform_mutation(plan, area, dist="cauchy", probabilty=1.0):
         None
     """
 
-    # apply only on non-fixed cells
+    # apply only on non-fixed cells only
     for cell in plan.get_cells("non_fixed"):
         random_number = np.random.random()
 
