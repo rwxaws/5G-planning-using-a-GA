@@ -3,18 +3,28 @@ import numpy as np
 from ..consts.constants import (FIXED_MACRO_COST,
                                 MACRO_COST,
                                 MICRO_COST,
+                                PICO_COST,
+                                FEMTO_COST,
                                 FIXED_MACRO_MIN_USERS,
                                 FIXED_MACRO_MAX_USERS,
                                 MACRO_MIN_USERS,
                                 MACRO_MAX_USERS,
                                 MICRO_MIN_USERS,
                                 MICRO_MAX_USERS,
+                                PICO_MIN_USERS,
+                                PICO_MAX_USERS,
+                                FEMTO_MIN_USERS,
+                                FEMTO_MAX_USERS,
                                 FIXED_MACRO_RADIUS,
                                 MACRO_RADIUS,
                                 MICRO_RADIUS,
+                                PICO_RADIUS,
+                                FEMTO_RADIUS,
                                 FIXED_MACRO_POWER,
                                 MACRO_POWER,
                                 MICRO_POWER,
+                                PICO_POWER,
+                                FEMTO_POWER,
                                 FIXED_MACRO_FREQ,
                                 MACRO_FREQ,
                                 SMALL_CELL_FREQ)
@@ -133,12 +143,24 @@ class Cell(object):
             },
 
             "pico":
-            {"cost": 5, "min_users": None, "max_users": None,
-             "radius": None, "power": None, "frequency": None},
+            {
+                "cost": PICO_COST,
+                "min_users": PICO_MIN_USERS,
+                "max_users": PICO_MAX_USERS,
+                "radius": PICO_RADIUS,
+                "power": PICO_POWER,
+                "frequency": SMALL_CELL_FREQ
+            },
 
             "femto":
-            {"cost": 1, "min_users": None, "max_users": None,
-             "radius": None, "power": None, "frequency": None}
+            {
+                "cost": FEMTO_COST,
+                "min_users": FEMTO_MIN_USERS,
+                "max_users": FEMTO_MAX_USERS,
+                "radius": FEMTO_RADIUS,
+                "power": FEMTO_POWER,
+                "frequency": SMALL_CELL_FREQ
+            }
         }
 
         cell_type = self.get_cell_type()

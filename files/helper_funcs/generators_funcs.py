@@ -113,6 +113,7 @@ def generate_initial_population(num_of_plans,
     for _ in range(num_of_plans):
         cp = copy.deepcopy(candidate_points)
         np.random.shuffle(cp)
+
         # generate cells
         fixed_macro_cells = generate_cells(cp,
                                            "fixed_macro",
@@ -126,16 +127,29 @@ def generate_initial_population(num_of_plans,
                                      "micro",
                                      num_micro,
                                      distance_micro)
+        pico_cells = generate_cells(cp,
+                                    "pico",
+                                    num_pico,
+                                    distance_pico)
+        femto_cells = generate_cells(cp,
+                                     "femto",
+                                     num_femto,
+                                     distance_femto)
 
         # generate a new plan
-        plan = Plan(fixed_macro_cells + macro_cells + micro_cells,
+        cells = fixed_macro_cells + macro_cells + \
+            micro_cells + pico_cells + femto_cells
+        plan = Plan(cells,
                     copy.deepcopy(users),
                     copy.deepcopy(cp),
                     num_fixed_macro,
                     num_macro,
-                    num_micro)
+                    num_micro,
+                    num_pico,
+                    num_femto)
         pool.append(plan)
 
+        # empty lists
         fixed_macro_cells = []
         macro_cells = []
         micro_cells = []

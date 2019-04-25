@@ -10,11 +10,6 @@ def tournament_selection(pool):
         f1 = nprandom.choice(old_pool)
         f2 = nprandom.choice(old_pool)
 
-        print("**********")
-        print(f1.get_fitness())
-        print(f2.get_fitness())
-        print("**********\n")
-
         if f1.get_fitness() >= f2.get_fitness():
             new_pool.append(f1)
         else:

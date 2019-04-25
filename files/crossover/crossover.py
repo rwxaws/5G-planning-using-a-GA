@@ -28,13 +28,7 @@ def crossover(pool, crossover_probabilty, crosspoints, crossover_method, alpha):
                                  alpha)
                 else:
                     pass
-            print(random_number)
-            print("parent 1:{}".format(parent1.get_cells("non_fixed")[i].pprint()))
-            print("parent 2:{}".format(parent2.get_cells("non_fixed")[i].pprint()))
-            print("child 1:{}".format(child1.get_cells("non_fixed")[i].pprint()))
-            print("child 2:{}".format(child2.get_cells("non_fixed")[i].pprint()))
         new_pool.append(child1)
         new_pool.append(child2)
 
-    print("len = {}".format(len(new_pool)))
     return new_pool

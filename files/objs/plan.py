@@ -1,4 +1,13 @@
 from ..network.net_funcs import distance, received_power
+from ..network.net_funcs import received_power
+from ..consts.constants import (THERMAL_NOISE,
+                                COST_WEIGHT,
+                                COVERAGE_WEIGHT,
+                                INTERFERENCE_WEIGHT,
+                                MAX_COST,
+                                MAX_COVERAGE,
+                                MAX_INTERFERENCE,
+                                NUM_USERS)
 
 
 class Plan(object):
@@ -122,6 +131,7 @@ class Plan(object):
     # setters
     def connect_users(self):
         """Connect users of each plan in pool to available cellular cells."""
+
         for user in self.get_users():
             user.empty_close_bss()
             for cell in self.get_cells():
@@ -131,10 +141,19 @@ class Plan(object):
                     # if cell is available
                     if cell.is_available():
                         user.add_to_close_bss(cell)
-
             # if user is within at least one base station range
             if len(user.get_close_bss()):
                 desired = user.get_close_bss()[0]
+                dist = distance(desired.get_xcoord(),
+                                desired.get_ycoord(),
+                                user.get_xcoord(),
+                                user.get_ycoord())
+                num_bs = self.get_num_cells(desired.get_cell_type())
+                power = received_power(desired.get_power(),
+                                       num_bs,
+                                       dist,
+                                       desired.get_frequency(), 0, 0)
+
                 for tested_cell in user.get_close_bss()[1:]:
                     dist1 = distance(desired.get_xcoord(),
                                      desired.get_ycoord(),
@@ -159,7 +178,11 @@ class Plan(object):
 
                     if power2 > power1:
                         desired = tested_cell
+                        power = power2
+                    else:
+                        power = power1
                 user.set_connected_bs(desired)
+                user.set_received_power(power)
                 desired.add_user(user)
 
     def calculate_connected_users(self):
@@ -179,13 +202,45 @@ class Plan(object):
                 cost += cell.get_cost()
         self._cost = cost
 
+    def calculate_SINR(self):
+        total_SINR = 0
+
+        for user in self.get_users():
+            if user.is_connected():
+                bs_power = user.get_received_power()
+                interference = 0
+                for cell in user.get_close_bss():
+                    if cell.get_state():
+                        dist = distance(cell.get_xcoord(),
+                                        cell.get_ycoord(),
+                                        user.get_xcoord(),
+                                        user.get_ycoord())
+                        num_bs = num_bs = self.get_num_cells(
+                            cell.get_cell_type())
+                        cell_power = received_power(cell.get_power(),
+                                                    num_bs,
+                                                    dist,
+                                                    cell.get_frequency(), 0, 0)
+                        interference += cell_power
+                sinr = (bs_power) / (THERMAL_NOISE ** 2 + interference + 30)
+                user.set_sinr(sinr)
+                total_SINR += sinr
+        return total_SINR
+
     def disconnect_unneeded_cells(self):
         """Disconnect cells that don't have enough users to be active."""
         for cell in self.get_cells():
             cell.check_if_needed()
 
     def calculate_fitness(self):
-        self._fitness = self._cost
+        cost = COST_WEIGHT * (MAX_COST - self.get_cost()) / MAX_COST
+        coverage = COVERAGE_WEIGHT * \
+            (NUM_USERS / self.get_num_of_connected_users() * 100) / MAX_COVERAGE
+        interference = INTERFERENCE_WEIGHT * \
+            ((MAX_INTERFERENCE - self.calculate_SINR()) / MAX_INTERFERENCE)
+        fitness = cost + coverage + interference
+
+        self._fitness = round(fitness, 3)
 
     def operate(self):
         """Operate the plan, by doing the necessary operations."""
@@ -199,8 +254,13 @@ class Plan(object):
         """Print the plan's attributes."""
 
         return """
-        # of connected users: {} of {}
+        # of connected users: {} of {} ({})
         fitness             : {}
+        cost                : {}
+        SINR                : {}
         """.format(self.get_num_of_connected_users(),
                    len(self.get_users()),
-                   self.get_fitness())
+                   (self.get_num_of_connected_users() / NUM_USERS) * 100,
+                   self.get_fitness(),
+                   self.get_cost(),
+                   self.calculate_SINR())

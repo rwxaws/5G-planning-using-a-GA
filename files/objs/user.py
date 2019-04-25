@@ -6,6 +6,8 @@ class User(object):
         _ycoord: The y coordinate of the user.
         _close_bss: A list of cells close to the user.
         _connected_bs: The base station that the user is currently connected to.
+        _received_power: The power received from the connected bs.
+        _sinr: SINR value of the user.
     """
 
     def __init__(self, coord_x, coord_y):
@@ -13,6 +15,8 @@ class User(object):
         self._coord_y = coord_y
         self._close_bss = []
         self._connected_bs = None
+        self._received_power = None
+        self._sinr = None
 
     # getters
     def get_xcoord(self):
@@ -31,9 +35,21 @@ class User(object):
         """Returns the base station that the user is currently connected to."""
         return self._connected_bs
 
+    def get_received_power(self):
+        return self._received_power
+
+    def get_sinr(self):
+        return self._sinr
+
     # setters
     def set_connected_bs(self, bs):
         self._connected_bs = bs
+
+    def set_received_power(self, power):
+        self._received_power = power
+
+    def set_sinr(self, sinr):
+        self._sinr = sinr
 
     def add_to_close_bss(self, base_station):
         """Append base_station to _close_bss."""
@@ -51,9 +67,11 @@ class User(object):
         """Returns info about the user in a human readable format."""
 
         return """
-        x = {}
-        y = {}
-    connected to = {}
+        x            = {}
+        y            = {}
+        connected to = {}
+        SINR         = {}
         """.format(self.get_xcoord(),
                    self.get_ycoord(),
-                   self.get_connected_bs())
+                   self.get_connected_bs(),
+                   self.get_sinr())

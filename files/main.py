@@ -7,21 +7,26 @@ from .helper_funcs.generators_funcs import (generate_candidate_points,
 from .objs.cell import Cell
 from .objs.plan import Plan
 from .objs.user import User
+from .consts.constants import (AREA,
+                               STEP_SIZE,
+                               USERS_THRESHOLD,
 
-# constants
-AREA = 3000
-STEP = 250
-USERS_THRESHOLD = 5
-NUM_USERS = 1000
-NUM_CHROMOSOMES = 50
-NUM_FIXED_MACROCELLS = 5
-NUM_MACROCELLS = 5
-NUM_MICROCELLS = 20
-DISTANCE_FIXED_MACROCELLS = 1000
-DISTANCE_MACROCELLS = 1000
-DISTANCE_MICROCELLS = 100
-FREQ_MACRO = 3.5
-FREQ_SMALL_CELLS = 28
+                               NUM_USERS,
+                               NUM_CHROMOSOMES,
+                               NUM_FIXED_MACRO,
+                               NUM_MACRO,
+                               NUM_MICRO,
+
+                               FIXED_MACRO_RADIUS,
+                               MACRO_RADIUS,
+                               MICRO_RADIUS,
+
+                               FIXED_MACRO_FREQ,
+                               MACRO_FREQ,
+                               SMALL_CELL_FREQ)
+
+from .mutation.non_uniform_mutation import non_uniform_mutation
+
 
 # lists
 users = []
@@ -35,7 +40,7 @@ users = generate_users(NUM_USERS, AREA)
 
 # generate candidate points
 candidate_points = generate_candidate_points(AREA,
-                                             STEP,
+                                             STEP_SIZE,
                                              copy.deepcopy(users),
                                              USERS_THRESHOLD)
 
@@ -44,18 +49,24 @@ candidate_points = generate_candidate_points(AREA,
 pool = generate_initial_population(NUM_CHROMOSOMES,
                                    candidate_points,
                                    users,
-                                   NUM_FIXED_MACROCELLS,
-                                   DISTANCE_FIXED_MACROCELLS,
-                                   NUM_MACROCELLS,
-                                   DISTANCE_MACROCELLS,
-                                   NUM_MICROCELLS,
-                                   DISTANCE_MICROCELLS)
+                                   NUM_FIXED_MACRO,
+                                   FIXED_MACRO_RADIUS,
+                                   NUM_MACRO,
+                                   MACRO_RADIUS,
+                                   NUM_MICRO,
+                                   MICRO_RADIUS)
 
 for plan in pool[0:1]:
-    plan.connect_users()
-    plan.disconnect_unneeded_cells()
-    print(plan.calculate_connected_users())
-    print(plan.calculate_cost())
+    plan.operate()
+    print(plan.pprint())
+
+for plan in pool[0:1]:
+    print("Before mutation")
+    print(plan.pprint())
+
+    print("After mutation")
+    non_uniform_mutation(plan, AREA)
+    print(plan.pprint())
 
 
 with open("./files/users_file.csv", mode="w") as users_file:
