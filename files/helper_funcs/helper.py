@@ -29,3 +29,11 @@ def within(x, y, size, px, py):
         if (py >= y and py <= y + size):
             return True
     return False
+
+
+def calculate_probability(population):
+
+    total_sum = sum([plan.get_fitness() for plan in population])
+    for plan in population:
+        probability = plan.get_fitness() / total_sum
+        plan.set_probability(probability)

@@ -43,7 +43,6 @@ def generate_cells(candidate_points_list, type_of_cell, num_of_cells, distance_b
             cell = Cell(cp[0], cp[1], type_of_cell)
             cell_list.append(cell)
             candidate_points_list.pop(candidate_points_list.index(cp))
-
     return cell_list
 
 

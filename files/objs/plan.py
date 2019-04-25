@@ -24,6 +24,7 @@ class Plan(object):
         _femto_cells: List of femto cells in the plan(can be empty).
         _cost: Cost in dollars.
         _fitness: Fitness of current plan.
+        _probability: Plan probability (used in SUS and RWS selection determination)
         _connected_users: Number of connected users.
     """
 
@@ -72,6 +73,7 @@ class Plan(object):
 
         self._cost = None
         self._fitness = None
+        self._probability = None
         self._connected_users = None
 
     # getters
@@ -120,6 +122,9 @@ class Plan(object):
 
     def get_fitness(self):
         return self._fitness
+
+    def get_probability(self):
+        return self._probability
 
     def get_candidate_points(self):
         """Returns the list of candidate points."""
@@ -241,6 +246,9 @@ class Plan(object):
         fitness = cost + coverage + interference
 
         self._fitness = round(fitness, 3)
+
+    def set_probability(self, newProbability):
+        self._probability = newProbability
 
     def operate(self):
         """Operate the plan, by doing the necessary operations."""

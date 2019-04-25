@@ -5,7 +5,7 @@ import numpy as np
 from .simple_arithmetic_crossover import sa_crossover
 
 
-def crossover(pool, crossover_probabilty, crosspoints, crossover_method, alpha):
+def crossover(pool, crossover_probability, crosspoints, crossover_method, alpha):
     new_pool = []
 
     # because each crossover generates 2 offspring
@@ -21,7 +21,7 @@ def crossover(pool, crossover_probabilty, crosspoints, crossover_method, alpha):
         for i in range(num_cells):
 
             random_number = np.random.random()
-            if random_number <= crossover_probabilty:
+            if random_number <= crossover_probability:
                 if crossover_method == "simple_arithmetic":
                     sa_crossover(child1.get_cells("non_fixed")[i],
                                  child2.get_cells("non_fixed")[i],
