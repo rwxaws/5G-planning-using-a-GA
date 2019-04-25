@@ -19,11 +19,13 @@ def stochastic_universal_sampling(population):
             r += 1 / len(population)
 
             current_member += 1
+
+    print("old")
     for plan in population:
-        print("old")
         print(plan.get_fitness())
 
+    print("new")
     for plan in new_mating_pool:
-        print("new")
         print(plan.get_fitness())
+
     return new_mating_pool
