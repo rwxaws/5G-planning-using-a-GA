@@ -2,13 +2,13 @@ import copy
 
 import numpy as np
 
-from .simple_arithmetic_crossover import sa_crossover
-
+from .simple_arithmetic_crossover import simple_arithmetic_crossover
+from .single_arithmetic_crossover import single_arithmetic_crossover
 
 def crossover(pool, crossover_probability, crosspoints, crossover_method, alpha):
     new_pool = []
 
-    # because each crossover generates 2 offspring
+    # each crossover generates 2 offspring
     num_children = len(pool) // 2
 
     for _ in range(num_children):
@@ -20,12 +20,14 @@ def crossover(pool, crossover_probability, crosspoints, crossover_method, alpha)
         num_cells = len(parent1.get_cells("non_fixed"))
         for i in range(num_cells):
 
-            random_number = np.random.random()
+            random_number = round(np.random.random(), 3)
             if random_number <= crossover_probability:
                 if crossover_method == "simple_arithmetic":
-                    sa_crossover(child1.get_cells("non_fixed")[i],
-                                 child2.get_cells("non_fixed")[i],
-                                 alpha)
+                    simple_arithmetic_crossover(child1.get_cells("non_fixed")[i],
+                                                child2.get_cells("non_fixed")[i],
+                                                alpha)
+                elif crossover_method == "single_arithmetic":
+                    single_arithmetic_crossover(child1, child2)
                 else:
                     pass
         new_pool.append(child1)

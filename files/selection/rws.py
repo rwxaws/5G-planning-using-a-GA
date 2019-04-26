@@ -17,12 +17,4 @@ def roulette_wheel_selection(population):
                 new_mating_pool.append(plan)
                 break
 
-    print("old")
-    for plan in population:
-        print(plan.get_fitness())
-
-    print("new")
-    for plan in new_mating_pool:
-        print(plan.get_fitness())
-
     return new_mating_pool
