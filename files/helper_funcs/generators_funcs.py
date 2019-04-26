@@ -109,15 +109,15 @@ def generate_initial_population(num_of_plans,
     """
 
     pool = []
+    fixed_macro_cells = generate_cells(candidate_points,
+                                       "fixed_macro",
+                                       num_fixed_macro,
+                                       distance_fixed_macro)
     for _ in range(num_of_plans):
         cp = copy.deepcopy(candidate_points)
         np.random.shuffle(cp)
 
         # generate cells
-        fixed_macro_cells = generate_cells(cp,
-                                           "fixed_macro",
-                                           num_fixed_macro,
-                                           distance_fixed_macro)
         macro_cells = generate_cells(cp,
                                      "macro",
                                      num_macro,
@@ -149,7 +149,7 @@ def generate_initial_population(num_of_plans,
         pool.append(plan)
 
         # empty lists
-        fixed_macro_cells = []
+        # fixed_macro_cells = []
         macro_cells = []
         micro_cells = []
         cp = []

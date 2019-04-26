@@ -1,6 +1,6 @@
-AREA = 5000  # Change USER_THRESHOLD when changing the area
-STEP_SIZE = 250
-USERS_THRESHOLD = 2
+AREA = 3500  # Change USER_THRESHOLD and STEP_SIZE when changing the area
+STEP_SIZE = 200
+USERS_THRESHOLD = 3
 NUM_GENERATIONS = 20
 
 THERMAL_NOISE = -112.240257  # (In dbm)

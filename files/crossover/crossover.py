@@ -19,9 +19,9 @@ def crossover(pool, crossover_probability, crosspoint, crossover_method, alpha):
         child1 = copy.deepcopy(parent1)
         child2 = copy.deepcopy(parent2)
 
-        num_cells = len(parent1.get_cells("non_fixed"))
+        num_cells_non_fixed = len(parent1.get_cells("non_fixed"))
         if crossover_method == "simple_arithmetic":
-            for i in range(crosspoint + 1, num_cells):
+            for i in range(crosspoint + 1, num_cells_non_fixed):
                 simple_arithmetic_crossover(child1.get_cells("non_fixed")[i],
                                             child2.get_cells("non_fixed")[i],
                                             alpha)
@@ -30,7 +30,7 @@ def crossover(pool, crossover_probability, crosspoint, crossover_method, alpha):
             single_arithmetic_crossover(child1, child2)
 
         elif crossover_method == "whole_arithmetic":
-            for i in range(num_cells):
+            for i in range(num_cells_non_fixed):
                 whole_arithmetic_crossover(child1.get_cells("non_fixed")[i],
                                            child2.get_cells("non_fixed")[i],
                                            alpha)

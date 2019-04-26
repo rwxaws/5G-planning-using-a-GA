@@ -1,5 +1,7 @@
 import numpy as np
 
+from ..consts.constants import AREA
+
 
 def non_uniform_mutation(cell, dist):
     """Apply non uniform mutation on cell.
@@ -20,5 +22,11 @@ def non_uniform_mutation(cell, dist):
         dy = round(np.random.normal(), 3)
     x_coord = cell.get_xcoord() + dx
     y_coord = cell.get_ycoord() + dy
+
+    if x_coord > AREA or x_coord < AREA:
+        x_coord = round(np.random.random() * AREA, 3)
+
+    if y_coord > AREA or y_coord < AREA:
+        y_coord = round(np.random.random() * AREA, 3)
 
     cell.set_coords(x_coord, y_coord)

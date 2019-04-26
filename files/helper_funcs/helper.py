@@ -95,11 +95,11 @@ def output_plans(best_plans):
             users_y.append(user.get_ycoord())
 
         plt.grid(True)
+        plt.plot(users_x, users_y, 'k.')
         plt.plot(fmacro_x, fmacro_y, 'ro')
         plt.plot(macro_x, macro_y, 'g^')
         plt.plot(micro_x, micro_y, 'b*')
         plt.plot(pico_x, pico_y, 'mo')
         plt.plot(femto_x, femto_y, 'cx')
-        plt.plot(users_x, users_y, 'k.')
         plt.savefig('./files/figs/fig' +
                     str(best_plans.index(plan) + 1), dpi=500, format="png")
