@@ -156,5 +156,6 @@ dmypy.json
 files/testing.py
 .files/figs/
 *.png
+*.jpg
 
 # End of https://www.gitignore.io/api/linux,python,visualstudiocode

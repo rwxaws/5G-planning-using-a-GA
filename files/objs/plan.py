@@ -86,6 +86,7 @@ class Plan(object):
                           all,
                           non_fixed,
                           fixed_macro,
+                          macro,
                           micro,
                           pico,
                           femto
@@ -261,14 +262,21 @@ class Plan(object):
     def pprint(self):
         """Print the plan's attributes."""
 
+        active_cells = 0
+        for cell in self.get_cells("all"):
+            if cell.get_state():
+                active_cells += 1
+
         return """
         # of connected users: {} of {} ({})
         fitness             : {}
         cost                : {}
         SINR                : {}
+        active cells        : {}
         """.format(self.get_num_of_connected_users(),
                    len(self.get_users()),
                    (self.get_num_of_connected_users() / NUM_USERS) * 100,
                    self.get_fitness(),
                    self.get_cost(),
-                   self.calculate_SINR())
+                   self.calculate_SINR(),
+                   active_cells)
