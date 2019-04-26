@@ -4,8 +4,10 @@ import numpy as np
 
 from .simple_arithmetic_crossover import simple_arithmetic_crossover
 from .single_arithmetic_crossover import single_arithmetic_crossover
+from .whole_arithmetic_crossover import whole_arithmetic_crossover
 
-def crossover(pool, crossover_probability, crosspoints, crossover_method, alpha):
+
+def crossover(pool, crossover_probability, crosspoint, crossover_method, alpha):
     new_pool = []
 
     # each crossover generates 2 offspring
@@ -18,18 +20,21 @@ def crossover(pool, crossover_probability, crosspoints, crossover_method, alpha)
         child2 = copy.deepcopy(parent2)
 
         num_cells = len(parent1.get_cells("non_fixed"))
-        for i in range(num_cells):
+        if crossover_method == "simple_arithmetic":
+            for i in range(crosspoint + 1, num_cells):
+                simple_arithmetic_crossover(child1.get_cells("non_fixed")[i],
+                                            child2.get_cells("non_fixed")[i],
+                                            alpha)
 
-            random_number = round(np.random.random(), 3)
-            if random_number <= crossover_probability:
-                if crossover_method == "simple_arithmetic":
-                    simple_arithmetic_crossover(child1.get_cells("non_fixed")[i],
-                                                child2.get_cells("non_fixed")[i],
-                                                alpha)
-                elif crossover_method == "single_arithmetic":
-                    single_arithmetic_crossover(child1, child2)
-                else:
-                    pass
+        elif crossover_method == "single_arithmetic":
+            single_arithmetic_crossover(child1, child2)
+
+        elif crossover_method == "whole_arithmetic":
+            for i in range(num_cells):
+                whole_arithmetic_crossover(child1.get_cells("non_fixed")[i],
+                                           child2.get_cells("non_fixed")[i],
+                                           alpha)
+
         new_pool.append(child1)
         new_pool.append(child2)
 
