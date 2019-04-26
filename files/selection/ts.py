@@ -1,12 +1,13 @@
-import numpy.random as nprandom
 import copy
 
+import numpy.random as nprandom
 
-def tournament_selection(pool):
-    old_pool = copy.deepcopy(pool)
+
+def tournament_selection(population):
+    old_pool = copy.deepcopy(population)
     new_pool = []
 
-    for _ in range(len(pool)):
+    for _ in range(len(population)):
         f1 = nprandom.choice(old_pool)
         f2 = nprandom.choice(old_pool)
 
