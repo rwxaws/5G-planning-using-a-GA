@@ -27,7 +27,7 @@ def crossover(pool, crossover_probability, crosspoint, crossover_method, alpha):
                                             alpha)
 
         elif crossover_method == "single_arithmetic":
-            single_arithmetic_crossover(child1, child2)
+            single_arithmetic_crossover(child1, child2, alpha)
 
         elif crossover_method == "whole_arithmetic":
             for i in range(num_cells_non_fixed):

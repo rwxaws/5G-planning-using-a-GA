@@ -15,8 +15,8 @@ def non_uniform_mutation(cell, dist):
     """
 
     if dist == "cauchy":
-        dy = round(np.random.standard_cauchy(), 3)
         dx = round(np.random.standard_cauchy(), 3)
+        dy = round(np.random.standard_cauchy(), 3)
     elif dist == "gaussian":
         dx = round(np.random.normal(), 3)
         dy = round(np.random.normal(), 3)

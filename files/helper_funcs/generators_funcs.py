@@ -83,10 +83,10 @@ def generate_initial_population(num_of_plans,
                                 distance_macro,
                                 num_micro,
                                 distance_micro,
-                                num_pico=None,
-                                distance_pico=None,
-                                num_femto=None,
-                                distance_femto=None):
+                                num_pico,
+                                distance_pico,
+                                num_femto,
+                                distance_femto):
     """Generate the initial population.
 
     Args:
@@ -149,7 +149,6 @@ def generate_initial_population(num_of_plans,
         pool.append(plan)
 
         # empty lists
-        # fixed_macro_cells = []
         macro_cells = []
         micro_cells = []
         cp = []

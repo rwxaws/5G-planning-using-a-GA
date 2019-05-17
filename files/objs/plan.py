@@ -24,6 +24,7 @@ class Plan(object):
         _femto_cells: List of femto cells in the plan(can be empty).
         _cost: Cost in dollars.
         _fitness: Fitness of current plan.
+        _sinr: Signal to Noise ration of the plan.
         _probability: Plan probability (used in SUS and RWS selection determination)
         _connected_users: Number of connected users.
     """
@@ -73,6 +74,7 @@ class Plan(object):
 
         self._cost = None
         self._fitness = None
+        self._sinr = None
         self._probability = None
         self._connected_users = None
 
@@ -123,6 +125,9 @@ class Plan(object):
 
     def get_fitness(self):
         return self._fitness
+
+    def get_sinr(self):
+        return self._sinr
 
     def get_probability(self):
         return self._probability
@@ -231,7 +236,7 @@ class Plan(object):
                 sinr = (bs_power) / (THERMAL_NOISE ** 2 + interference + 30)
                 user.set_sinr(sinr)
                 total_SINR += sinr
-        return total_SINR
+        self._sinr = round(total_SINR, 3)
 
     def disconnect_unneeded_cells(self):
         """Disconnect cells that don't have enough users to be active."""
@@ -240,10 +245,14 @@ class Plan(object):
 
     def calculate_fitness(self):
         cost = COST_WEIGHT * (MAX_COST - self.get_cost()) / MAX_COST
+
         coverage = COVERAGE_WEIGHT * \
             (NUM_USERS / self.get_num_of_connected_users() * 100) / MAX_COVERAGE
+
+        self.calculate_SINR()
         interference = INTERFERENCE_WEIGHT * \
-            ((MAX_INTERFERENCE - self.calculate_SINR()) / MAX_INTERFERENCE)
+            ((MAX_INTERFERENCE - self.get_sinr()) / MAX_INTERFERENCE)
+
         fitness = cost + coverage + interference
 
         self._fitness = round(fitness, 3)
@@ -268,15 +277,15 @@ class Plan(object):
                 active_cells += 1
 
         return """
-        # of connected users: {} of {} ({})
         fitness             : {}
+        # of connected users: {} of {} ({})
         cost                : {}
         SINR                : {}
         active cells        : {}
-        """.format(self.get_num_of_connected_users(),
+        """.format(self.get_fitness(),
+                   self.get_num_of_connected_users(),
                    len(self.get_users()),
                    (self.get_num_of_connected_users() / NUM_USERS) * 100,
-                   self.get_fitness(),
                    self.get_cost(),
-                   self.calculate_SINR(),
+                   self.get_sinr(),
                    active_cells)

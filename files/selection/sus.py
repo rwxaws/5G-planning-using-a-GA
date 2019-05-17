@@ -6,13 +6,13 @@ def stochastic_universal_sampling(population):
     new_mating_pool = []
 
     calculate_probability(population)
-
     r = np.random.uniform(0, 1 / len(population))
     relative_probability = 0.0
     current_member = 0
 
     while(len(new_mating_pool) < len(population)):
         relative_probability += population[current_member].get_probability()
+        # import pdb; pdb.set_trace()
 
         while(r <= relative_probability):
             new_mating_pool.append(population[current_member])
