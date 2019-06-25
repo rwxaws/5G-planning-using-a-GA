@@ -1,7 +1,6 @@
 import numpy as np
 from ..helper_funcs.helper import calculate_probability
 
-
 def stochastic_universal_sampling(population):
     new_mating_pool = []
 
