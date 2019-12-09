@@ -23,7 +23,6 @@ def within(x, y, size, px, py):
 
 
 def calculate_probability(population):
-
     total_sum = sum([plan.get_fitness() for plan in population])
     for plan in population:
         probability = plan.get_fitness() / total_sum
@@ -31,8 +30,9 @@ def calculate_probability(population):
 
 
 def find_best_plan(pool):
+    
+    # search for the best plan in the current pool
     best_plan = pool[0]
-
     for plan in pool:
         if plan.get_fitness() > best_plan.get_fitness():
             best_plan = plan
