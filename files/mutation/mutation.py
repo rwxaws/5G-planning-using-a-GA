@@ -8,11 +8,15 @@ def mutation(pool, area, probability, method, dist="cauchy"):
     """Apply mutation over the whole pool.
 
     Args:
-        pool: Population pool.
-        area: Area of interest.
-        probability: Probability of mutation.
-        method: Mutation method (uniform, non_uniform).
-        dist: Type of distribution to be used in non_uniform mutation.
+        pool: (list of) plans to apply mutation over.
+        area: (int) area of interest.
+        probability: (int) probability of mutation.
+        method: (str) mutation method.
+            - uniform
+            - non_uniform
+        dist: (str) type of distribution to be used (needed only in non_uniform_mutation).
+            - cauchy (default)
+            - gaussian
 
     Returns:
         None
@@ -26,4 +30,4 @@ def mutation(pool, area, probability, method, dist="cauchy"):
                 if method == "uniform":
                     uniform_mutation(cell, area)
                 elif method == "non_uniform":
-                    non_uniform_mutation(cell, dist)
+                    non_uniform_mutation(cell, area, dist)

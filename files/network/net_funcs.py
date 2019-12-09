@@ -30,12 +30,12 @@ def received_power(power_bs, num_bs, distance, frequency, rain, fooliage):
     """Returns recieved power given the number of base stations.
 
     Args:
-        power_bs: Power of the base station.
-        num_bs: Number of base stations.
-        distance: Distance between user and base station
-        frequency: The frequency at which the base station(s) operate.
-        rain: Rain attenuation.
-        fooliage: Fooliage loss.
+        power_bs: power of the base station.
+        num_bs: number of base stations.
+        distance: distance between user and base station
+        frequency: the frequency at which the base station(s) operate.
+        rain: rain attenuation.
+        fooliage: fooliage loss.
 
     Returns:
         A float rounded to three decimal places representing the recieved power.

@@ -2,6 +2,14 @@ import numpy as np
 from ..helper_funcs.helper import calculate_probability
 
 def roulette_wheel_selection(population):
+    """Apply Roulette Wheel Selection method.
+
+    Args:
+        population: (list of) plans of the current generation.
+
+    Returns:
+        (list of) most fit members of the current population.
+    """
 
     new_mating_pool = []
 

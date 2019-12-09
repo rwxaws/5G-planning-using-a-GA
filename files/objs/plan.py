@@ -14,19 +14,19 @@ class Plan(object):
     """Representation of a single plan(cells + users)
 
     Attributes:
-        _cell_list: List of all the cells in a given plan.
-        _users: List of the users associated with the plan.
-        _candidate_points: List of candidate points used by the plan.
-        _fixed_macro_cells: List of fixed macro cells(inherited from 4G).
-        _macro_cells: List of macro cells in the plan.
-        _micro_cells: List of micro cells in the plan(can be empty).
-        _pico_cells: List of pico cells in the plan(can be empty).
-        _femto_cells: List of femto cells in the plan(can be empty).
-        _cost: Cost in dollars.
-        _fitness: Fitness of current plan.
-        _sinr: Signal to Noise ration of the plan.
-        _probability: Plan probability (used in SUS and RWS selection determination)
-        _connected_users: Number of connected users.
+        _cell_list: (list of) all the cells in a given plan.
+        _users: (list of) the users associated with the plan.
+        _candidate_points: (list of) candidate points used by the plan.
+        _fixed_macro_cells: (List of) fixed macro cells(inherited from 4G).
+        _macro_cells: (List of) macro cells in the plan.
+        _micro_cells: (List of) micro cells in the plan(can be empty).
+        _pico_cells: (List of) pico cells in the plan(can be empty).
+        _femto_cells: (List of) femto cells in the plan(can be empty).
+        _cost: (int) cost in dollars.
+        _fitness: (number) fitness of current plan.
+        _sinr: (number) signal to Noise ration of the plan.
+        _probability: (number) plan probability (used in SUS and RWS selection determination)
+        _connected_users: (number) connected users.
     """
 
     def __init__(
@@ -83,16 +83,14 @@ class Plan(object):
         """Returns a list of cells in the plan.
 
         Args:
-            cells_type: A string of the desired cells
-                      it accepts the following(
-                          all,
-                          non_fixed,
-                          fixed_macro,
-                          macro,
-                          micro,
-                          pico,
-                          femto
-                          ).
+            cells_type: (str) of the desired cells it accepts the following:
+                          - all
+                          - non_fixed
+                          - fixed_macro
+                          - macro
+                          - micro
+                          - pico
+                          - femto 
         """
 
         if cells_type == "all":
@@ -114,7 +112,6 @@ class Plan(object):
         return cells
 
     def get_users(self):
-        """Returns the list of users associated with the plan."""
         return self._users
 
     def get_num_of_connected_users(self):
@@ -133,7 +130,6 @@ class Plan(object):
         return self._probability
 
     def get_candidate_points(self):
-        """Returns the list of candidate points."""
         return self._candidate_points
 
     def get_num_cells(self, cell_type="macro"):
@@ -197,7 +193,6 @@ class Plan(object):
                 desired.add_user(user)
 
     def calculate_connected_users(self):
-        """Calculate the number of connected users in the plan."""
         users = self.get_users()
         connected_users = 0
 
@@ -257,8 +252,8 @@ class Plan(object):
 
         self._fitness = round(fitness, 3)
 
-    def set_probability(self, newProbability):
-        self._probability = newProbability
+    def set_probability(self, new_probability):
+        self._probability = new_probability
 
     def operate(self):
         """Operate the plan, by doing the necessary operations."""

@@ -2,11 +2,11 @@ class User(object):
     """Representation of a single user in an area.
 
     Attributes:
-        _xcoord: The x coordinate of the user.
-        _ycoord: The y coordinate of the user.
-        _close_bss: A list of cells close to the user.
-        _connected_bs: The base station that the user is currently connected to.
-        _received_power: The power received from the connected bs.
+        _xcoord: (int) the x coordinate of the user.
+        _ycoord: (int) the y coordinate of the user.
+        _close_bss: (list of) cells close by to the user.
+        _connected_bs: (list of) the base station that the user is currently connected to.
+        _received_power: (number) the power received from the connected bs.
         _sinr: SINR value of the user.
     """
 
@@ -20,19 +20,15 @@ class User(object):
 
     # getters
     def get_xcoord(self):
-        """Returns the user x coordinate."""
         return self._coord_x
 
     def get_ycoord(self):
-        """Returns the user y coordinate."""
         return self._coord_y
 
     def get_close_bss(self):
-        """Returns the list of close by base stations."""
         return self._close_bss
 
     def get_connected_bs(self):
-        """Returns the base station that the user is currently connected to."""
         return self._connected_bs
 
     def get_received_power(self):
@@ -52,7 +48,6 @@ class User(object):
         self._sinr = sinr
 
     def add_to_close_bss(self, base_station):
-        """Append base_station to _close_bss."""
         self._close_bss.append(base_station)
 
     def empty_close_bss(self):

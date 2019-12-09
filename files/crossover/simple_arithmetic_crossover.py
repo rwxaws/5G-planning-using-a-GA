@@ -4,6 +4,18 @@ import numpy as np
 
 
 def simple_arithmetic_crossover(cell1, cell2, alpha):
+    """Apply simple arithmetic crossover
+
+    Args:
+        cell1: (cell objs) first cell.
+        cell2: (cell objs) second cell.
+        alpha: (int) used in calculating the new (x, y) values.
+
+    Returns:
+        None
+    """
+
+
     c1x = alpha * cell2.get_xcoord() + (1 - alpha) * cell1.get_xcoord()
     c1y = alpha * cell2.get_ycoord() + (1 - alpha) * cell1.get_ycoord()
 

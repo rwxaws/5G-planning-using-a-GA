@@ -15,12 +15,20 @@ def generate_cells(candidate_points_list, type_of_cell, num_of_cells, distance_b
     Generates required cells that can be used to create a population.
 
     Args:
-        candidate_points_list: the list of candidate points each as a tuple
-        type_of_cell: a string representing the type of cell(eg: macro)
-                    that is to be generated.
-        num_of_cells: how many cells to be generated.
-        distance_between_cells: the distance (in meters) between every cell.
+        candidate_points_list: (list of) candidate points each as a tuple
+        type_of_cell: (str) representing the type of cell that is to be generated:
+                    - fixed_macro
+                    - macro
+                    - micro
+                    - pico
+                    - femto
+        num_of_cells: (int) number of cells to be generated.
+        distance_between_cells: (num) the distance (in meters) between every cell.
+
+    Returns:
+        (list of) cells
     """
+
     np.random.shuffle(candidate_points_list)
     temp_candidate_points_list = copy.deepcopy(candidate_points_list)
     cell_list = []
@@ -47,7 +55,16 @@ def generate_cells(candidate_points_list, type_of_cell, num_of_cells, distance_b
 
 
 def generate_users(num_of_users, area):
-    """Generate users in a uniform random way."""
+    """Generate users in a uniform random way.
+
+    Args:
+        num_of_users: (int) number of users to generate.
+        area: (int) area of interest.
+
+    Returns:
+        (list of) users.
+    """
+
     users = []
     for _ in range(num_of_users):
         x = round(np.random.uniform(0, area))
@@ -58,7 +75,17 @@ def generate_users(num_of_users, area):
 
 
 def generate_candidate_points(area, step, users_list, users_threshold):
-    """Generate candidate points in a uniform random way."""
+    """Generate candidate points in a uniform random way.
+    
+    Args:
+        area: (int) area of interest.
+        step: (int) step to jump between each square.
+        users_list: (list of) users.
+        users_threshold: (int) minimal number of users within a given area.
+
+    Returns:
+        (list of) candidate_points.
+    """
     candidate_points = []
     for i in range(0, area, step):
         for j in range(0, area, step):
@@ -90,22 +117,22 @@ def generate_initial_population(num_of_plans,
     """Generate the initial population.
 
     Args:
-        num_of_plans: An integer of the size of the population.
-        candidate_points: A list of candidate points.
-        users: A list of users.
-        num_fixed_macro: An integer of the number of fixed macro cells.
-        distance_fixed_macro: An integer of the distance between each fixed macro cell.
-        num_macro: An integer of the number of macro cells.
-        distance_macro: An integer of the distance between each macro cell.
-        num_micro: An integer of the number of micro cells.
-        distance_macro: An integer of the distance between each micro cell.
-        num_pico: An integer of the number of pico cells.
-        distance_pico: An integer of the distance between each pico cell.
-        num_femto: An integer of the number of femto cells.
-        distance_femto: An integer of the distance between each femto cell.
+        num_of_plans: (int) the size of the population.
+        candidate_points: (list of) candidate points.
+        users: (list of) users.
+        num_fixed_macro: (int) fixed macro cells.
+        distance_fixed_macro: (num) distance between each fixed macro cell.
+        num_macro: (int) number of macro cells.
+        distance_macro: (num) the distance between each macro cell.
+        num_micro: (int) number of micro cells.
+        distance_macro: (num) distance between each micro cell.
+        num_pico: (int) number of pico cells.
+        distance_pico: (num) distance between each pico cell.
+        num_femto: (int) number of femto cells.
+        distance_femto: (num) distance between each femto cell.
 
     Returns:
-        A list(pool) of plans.
+        (list of) plans.
     """
 
     pool = []

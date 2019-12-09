@@ -1,4 +1,15 @@
 def whole_arithmetic_crossover(cell1, cell2, alpha):
+    """Apply whole arithmetic crossover on given cells
+
+    Args:
+        cell1: (cell obj) first cell.
+        cell2: (cell obj) second cell.
+        alpha: (int) used in calculation of new (x, y) values.
+
+    Returns:
+        None
+    """
+
     c1x = alpha * cell1.get_xcoord() + (1 - alpha) * cell2.get_xcoord()
     c1y = alpha * cell1.get_ycoord() + (1 - alpha) * cell2.get_ycoord()
 

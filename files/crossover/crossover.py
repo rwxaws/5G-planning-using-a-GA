@@ -8,6 +8,22 @@ from .whole_arithmetic_crossover import whole_arithmetic_crossover
 
 
 def crossover(pool, crossover_probability, crosspoint, crossover_method, alpha):
+    """Apply crossover method on given pool of plans.
+
+    Args:
+        pool: (list of) plans obj.
+        crossover_probability: (int).
+        crosspoint: (int) should be a randomly generated number.
+        crossover_method: (str) must be one of the following:
+            - simple_arithmetic
+            - single_arithmetic
+            - whole_arithmetic
+        alpha: (int) used to calculate the values in simple_arithmetic and single_arithmetic.
+    
+    Returns:
+        (list of) plans
+    """
+
     new_pool = []
 
     # each crossover generates 2 offspring

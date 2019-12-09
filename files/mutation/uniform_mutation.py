@@ -5,12 +5,13 @@ def uniform_mutation(cell, area):
     """Apply uniform mutation on cell.
 
     Args:
-        cell: The cell to apply the mutation over.
-        area: Area of interest.
+        cell: (cell obj) the cell to apply the mutation on.
+        area: (int) the area of interest.
 
     Returns:
         None
     """
+
     new_xcoord = round(np.random.random() * area, 3)
     new_ycoord = round(np.random.random() * area, 3)
 

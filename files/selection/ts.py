@@ -4,6 +4,15 @@ import numpy.random as nprandom
 
 
 def tournament_selection(population):
+    """Apply Tournament Selection method.
+
+    Args:
+        population: (list of) plans of the current generation.
+
+    Returns:
+        (list of) most fit members of the current population.
+    """
+
     old_pool = copy.deepcopy(population)
     new_mating_pool = []
 

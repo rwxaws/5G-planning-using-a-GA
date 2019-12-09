@@ -2,6 +2,15 @@ import numpy as np
 from ..helper_funcs.helper import calculate_probability
 
 def stochastic_universal_sampling(population):
+    """Apply Stochastic Universal Selection method.
+
+    Args:
+        population: (list of) plans of the current generation.
+
+    Returns:
+        (list of) most fit members of the current population.
+    """
+
     new_mating_pool = []
 
     calculate_probability(population)
@@ -11,7 +20,6 @@ def stochastic_universal_sampling(population):
 
     while(len(new_mating_pool) < len(population)):
         relative_probability += population[current_member].get_probability()
-        # import pdb; pdb.set_trace()
 
         while(r <= relative_probability):
             new_mating_pool.append(population[current_member])
