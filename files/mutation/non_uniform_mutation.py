@@ -1,7 +1,6 @@
 import numpy as np
 
 
-
 def non_uniform_mutation(cell, area, dist):
     """Apply non uniform mutation on cell.
 

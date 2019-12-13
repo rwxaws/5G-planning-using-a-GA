@@ -1,3 +1,4 @@
+# std library imports
 import copy
 import csv
 import random
@@ -14,15 +15,15 @@ from .consts.constants import *
 
 
 # lists
-users = []
+users            = []
 candidate_points = []
-pool = []
-best_plans = []
+pool             = []
+best_plans       = []
 
 # generate users
 users = generate_users(NUM_USERS, AREA)
 
-# generate candidate points
+# generate candidate points (used to plant cells)
 candidate_points = generate_candidate_points(AREA,
                                              STEP_SIZE,
                                              copy.deepcopy(users),
@@ -44,22 +45,28 @@ pool = generate_initial_population(NUM_CHROMOSOMES,
                                    NUM_FEMTO,
                                    FEMTO_RADIUS)
 
-for generation in range(NUM_GENERATIONS):
+# start of the genetic algorithm
+for generation in range(3):
     print("GENERATION #{}".format(generation)) 
     for plan in pool:
         plan.operate()
         print(plan.pprint())
 
+    # selection
     pool = selection(pool, SELECTION_METHOD)
 
+    # crossover
     cross_point = random.randint(1, len(pool) - 1)
     pool = crossover(pool, CROSSOVER_PROBABILTY, cross_point, CROSSOVER_METHOD, ALPHA)
 
+    # mutation
     mutation(pool, AREA, MUTATION_PROBABILTY, MUTATION_METHOD) 
 
+    # selection of the best plan from each generation
     best_plans.append(find_best_plan(pool))
 
 
+# create figs directory if it doesn't exist
 if "figs" not in os.listdir("files"):
     os.mkdir("files/figs")
 output_plans(best_plans)
