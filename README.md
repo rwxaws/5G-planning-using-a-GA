@@ -9,23 +9,17 @@ One of these challenges include the cost of deployment and maintenance of Macro 
 This solution also solves the problem of coverage since these new cell types are cheaper and easier to deploy and maintain, moreover, they can fill the holes left by Macro cells.
 
 
-# Project Structure
+# Running the project
+make sure you have python3+ installed as well as the following libraries
+- matplotlib
+- numpy
 
-This project is divided as such:
+which can be installed using pip
+``` py
+pip3 install matplotlib numpy --user
+```
 
-- files (include all the files and directories used in this project)
-  - crossover (include the crossover operators used by the genetic algorithm)
-  - helper_funcs (functions that are used in the project and does NOT have an appropriate place)
-    - helper.py
-    - generators_funcs.py
-  - mutation (include the mutation operators used by the genetic algorithm)
-  - selection (include the selection operators used by the genetic algorithm)
-  - network (functions that calculate certain network related values such as: rain attenuation and the distance between cells and/or users)
-    - net_funcs.py
-  - objs (defines the classes that are used in the project)
-    - user.py
-    - cell.py
-    - plan.py
-  - main.py (the main file, from which the algorithm is implemented)
-- README.md (the file you are currently reading)
-- LICENSE (The license file)
+to run the program make sure you are in the root of the project and run the main file as a module
+``` py
+python3 -m files.main
+```
