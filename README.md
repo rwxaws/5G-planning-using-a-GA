@@ -15,7 +15,7 @@ make sure you have python3+ installed as well as the following libraries
 - numpy
 
 which can be installed using pip
-``` bash
+``` sh
 pip3 install matplotlib numpy --user
 ```
 
