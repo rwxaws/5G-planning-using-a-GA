@@ -136,7 +136,7 @@ def output_plans(best_plans):
             0.5, -0.05), shadow=True, ncol=3)
 
         plt.savefig("./files/figs/fig" +
-                    str(best_plans.index(plan) + 1) + ".jpg", dpi=500, format="jpg")
+                    str(best_plans.index(plan) + 1) + ".png", dpi=500, format="png")
 
         fitness.append(plan.get_fitness())
         sinr.append(plan.get_sinr())
