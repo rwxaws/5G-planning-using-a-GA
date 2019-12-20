@@ -1,13 +1,15 @@
 from ..network.net_funcs import distance, received_power
 from ..network.net_funcs import received_power
-from ..consts.constants import (THERMAL_NOISE,
-                                COST_WEIGHT,
-                                COVERAGE_WEIGHT,
-                                INTERFERENCE_WEIGHT,
-                                MAX_COST,
-                                MAX_COVERAGE,
-                                MAX_INTERFERENCE,
-                                NUM_USERS)
+from ..consts.constants import (
+    THERMAL_NOISE,
+    COST_WEIGHT,
+    COVERAGE_WEIGHT,
+    INTERFERENCE_WEIGHT,
+    MAX_COST,
+    MAX_COVERAGE,
+    MAX_INTERFERENCE,
+    NUM_USERS
+)
 
 
 class Plan(object):

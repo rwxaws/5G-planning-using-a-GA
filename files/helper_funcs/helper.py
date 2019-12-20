@@ -5,10 +5,20 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 import numpy as np
 
-from ..consts.constants import (AREA, FIXED_MACRO_RADIUS, MACRO_RADIUS,
-                                MICRO_RADIUS, PICO_RADIUS, FEMTO_RADIUS)
+from ..consts.constants import (
+    AREA,
+    FIXED_MACRO_RADIUS,
+    MACRO_RADIUS,
+    MICRO_RADIUS,
+    PICO_RADIUS,
+    FEMTO_RADIUS
+)
 
-from ..network.net_funcs import distance, received_power
+from ..network.net_funcs import (
+    distance,
+    received_power
+)
+
 from ..objs.cell import Cell
 from ..objs.plan import Plan
 from ..objs.user import User

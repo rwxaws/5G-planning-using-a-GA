@@ -4,10 +4,17 @@ import csv
 import random
 import os
 
-from .helper_funcs.generators_funcs import (generate_candidate_points,
-                                            generate_initial_population,
-                                            generate_users)
-from .helper_funcs.helper import (find_best_plan, output_plans)
+from .helper_funcs.generators_funcs import (
+    generate_candidate_points,
+    generate_initial_population,
+    generate_users
+)
+
+from .helper_funcs.helper import (
+    find_best_plan,
+    output_plans
+)
+
 from .selection.selection import selection
 from .crossover.crossover import crossover
 from .mutation.mutation import mutation
