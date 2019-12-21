@@ -53,7 +53,7 @@ pool = generate_initial_population(NUM_CHROMOSOMES,
                                    FEMTO_RADIUS)
 
 # start of the genetic algorithm
-for generation in range(3):
+for generation in range(NUM_GENERATIONS):
     print("GENERATION #{}".format(generation)) 
     for plan in pool:
         plan.operate()
