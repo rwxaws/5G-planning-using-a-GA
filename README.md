@@ -16,7 +16,7 @@ make sure you have python3+ installed as well as the following libraries
 
 which can be installed using pip
 ``` sh
-pip3 install matplotlib numpy --user
+pip3 install -r requirements.txt
 ```
 
 to run the program make sure you are in the root of the project and run the main file as a module
