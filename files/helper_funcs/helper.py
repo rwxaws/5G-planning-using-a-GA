@@ -75,8 +75,6 @@ def output_plans(best_plans):
         femto_x = []
         femto_y = []
 
-        plt.clf()
-
         for cell in plan.get_cells('all'):
             if cell.get_cell_type() == 'fixed_macro':
                 fmacro_x.append(cell.get_xcoord())
@@ -147,6 +145,9 @@ def output_plans(best_plans):
 
         plt.savefig("./files/figs/fig" +
                     str(best_plans.index(plan)) + ".png", dpi=500, format="png")
+
+        plt.clf()
+        plt.close(plt.gcf())
 
         fitness.append(plan.get_fitness())
         sinr.append(plan.get_sinr())
