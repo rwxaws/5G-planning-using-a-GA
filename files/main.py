@@ -52,9 +52,14 @@ pool = generate_initial_population(NUM_CHROMOSOMES,
                                    NUM_FEMTO,
                                    FEMTO_RADIUS)
 
+# add the best plan from the initial population
+for plan in pool:
+    plan.operate()
+best_plans.append(find_best_plan(pool))
+
 # start of the genetic algorithm
 for generation in range(NUM_GENERATIONS):
-    print("GENERATION #{}".format(generation)) 
+    print("GENERATION #{}".format(generation + 1)) 
     for plan in pool:
         plan.operate()
         print(plan.pprint())
